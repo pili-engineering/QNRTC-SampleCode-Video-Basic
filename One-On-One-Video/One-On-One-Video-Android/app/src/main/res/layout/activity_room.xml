@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".RoomActivity">
+
+    <com.qiniu.droid.rtc.QNSurfaceView
+        android:id="@+id/local_video_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.qiniu.droid.rtc.QNSurfaceView
+        android:id="@+id/remote_video_surface_view"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_gravity="end" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/camera_button"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:background="#0000"
+                android:onClick="clickMuteVideo"
+                android:src="@mipmap/video_open" />
+
+            <ImageButton
+                android:id="@+id/microphone_button"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:background="#0000"
+                android:onClick="clickMuteAudio"
+                android:src="@mipmap/microphone" />
+
+            <ImageButton
+                android:id="@+id/switch_camera_button"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:background="#0000"
+                android:onClick="clickSwitchCamera"
+                android:src="@mipmap/camera_switch_front" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/close_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:background="#0000"
+            android:onClick="clickHangUp"
+            android:src="@mipmap/close_phone" />
+    </LinearLayout>
+</FrameLayout>
