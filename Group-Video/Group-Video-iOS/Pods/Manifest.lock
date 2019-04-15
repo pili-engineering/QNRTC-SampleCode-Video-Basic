@@ -1,0 +1,16 @@
+PODS:
+  - QNRTCKit (2.1.1)
+
+DEPENDENCIES:
+  - QNRTCKit (= 2.1.1)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - QNRTCKit
+
+SPEC CHECKSUMS:
+  QNRTCKit: 6dc69aa48f326033d671990e411450bfc6040608
+
+PODFILE CHECKSUM: 4cdd02931cf71630b4cc519581e56a02ecf9ee2d
+
+COCOAPODS: 1.6.0.rc.2

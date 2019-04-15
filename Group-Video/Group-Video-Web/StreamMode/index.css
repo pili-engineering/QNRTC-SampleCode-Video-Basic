@@ -1,0 +1,13 @@
+select {
+  width: 300px;
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+.qnrtc-stream-player {
+  width: 320px !important;
+  height: 240px !important;
+  background: #000;
+}

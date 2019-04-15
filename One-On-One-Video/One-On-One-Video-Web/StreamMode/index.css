@@ -1,0 +1,13 @@
+select {
+  width: 300px;
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+#localvideo, #remotevideo {
+  width: 320px;
+  height: 240px;
+  background: #000;
+}

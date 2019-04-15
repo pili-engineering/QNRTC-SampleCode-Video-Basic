@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">QNRTCSample-Group</string>
+    <string name="title">Basic Sample Code</string>
+    <string name="subtitle">many to many</string>
+    <string name="room_token">Room Token</string>
+    <string name="join_room">Join In Room</string>
+</resources>
