@@ -16,6 +16,10 @@ extern NSString *QNCameraAuthorizationStatusDidGetNotificaiton;
 
 extern NSString *QNRTCErrorDomain;
 
+extern NSString *QNAudioMixErrorDomain;
+
+extern NSString *QNAudioFileErrorDomain;
+
 #pragma mark - RTC Error Code
 
 NS_ERROR_ENUM(QNRTCErrorDomain)
@@ -68,7 +72,55 @@ NS_ERROR_ENUM(QNRTCErrorDomain)
     QNRTCErrorSubscribeFailed                   = 11012,
     //merge failed
     QNRTCErrorUpdateMergeFailed                 = 11013,
+    //push audioBuffer with asbd convert failed
+    QNRTCErrorPushAudioBufferFailed             = 11014,
 
+};
+
+NS_ERROR_ENUM(QNAudioMixErrorDomain)
+{
+    // new grap failed
+    QNAudioMixErrorGraphNewFailed = 20001,
+    // add node error
+    QNAudioMixErrorAddNodeError = 20002,
+    // open graph failed
+    QNAudioMixErrorGraphOpenFailed = 20003,
+    // get node info error
+    QNAudioMixErrorNodeInfoError = 20004,
+    // add render callback failed
+    QNAudioMixErrorAddRenderFailed = 20005,
+    // connect node failed
+    QNAudioMixErrorConnectNodeFailed = 20006,
+    // set volume failed
+    QNAudioMixErrorVolumeFailed = 20011,
+    // set/get property error
+    QNAudioMixErrorPropertyError = 20012,
+    // set node input callback error
+    QNAudioMixErrorMixCallbackError = 20013,
+    // init graph failed
+    QNAudioMixErrorGraphInitFailed = 20021,
+    // start graph failed
+    QNAudioMixErrorGraphStartFailed = 20022,
+    // stop graph failed
+    QNAudioMixErrorGraphStopFailed = 20023,
+    // read audio data failed
+    QNAudioMixErrorReadDataError = 20031,
+};
+
+NS_ERROR_ENUM(QNAudioFileErrorDomain)
+{
+    // open audio file failed
+    QNAudioFileErrorOpenFailed = 30001,
+    // dispose audio file failed
+    QNAudioFileErrorDisposeFailed = 30002,
+    // set/get property error
+    QNAudioFileErrorPropertyError = 30011,
+    // read audio file failed
+    QNAudioFileErrorReadFailed = 30021,
+    // audio file seek failed
+    QNAudioFileErrorSeekFailed = 30022,
+    // audio file not exist
+    QNAudioFileErrorFileNotExist = 30031,
 };
 
 #pragma mark - RTC Video Size
@@ -173,6 +225,32 @@ typedef NS_ENUM(NSUInteger, QNAuthorizationStatus) {
     QNAuthorizationStatusAuthorized
 };
 
+/*!
+ * @abstract 媒体流的连接方式
+ *
+ * @since v2.2.0
+ */
+typedef NS_ENUM(NSUInteger, QNRTCPolicy) {
+    /// 使用 UDP
+    QNRTCPolicyForceUDP = 0,
+    /// 使用 TCP
+    QNRTCPolicyForceTCP,
+    /// 优先 UDP，不通的话自动改为 TCP
+    QNRTCPolicyPreferUDP,
+};
+
+/*!
+ * @abstract 带宽估计的策略
+ *
+ * @since v2.3.0
+ */
+typedef NS_ENUM(NSUInteger, QNRTCBWEPolicy) {
+    /// 使用 TCC
+    QNRTCBWEPolicyTCC = 0,
+    /// 使用 GCC
+    QNRTCBWEPolicyGCC = 1,
+};
+
 //视频填充模式
 typedef enum {
     /**
@@ -191,6 +269,63 @@ typedef enum {
     QNVideoFillModePreserveAspectRatioAndFill
 } QNVideoFillModeType;
 
+///音频播放状态
+typedef NS_ENUM(NSUInteger, QNAudioPlayState) {
+    /*!
+     * @abstract 初始状态
+     *
+     * @since v2.2.0
+     */
+    QNAudioPlayStateInit = 0,
+    /*!
+     * @abstract 准备播放的状态
+     *
+     * @since v2.2.0
+     */
+    QNAudioPlayStateReady,
+    /*!
+     * @abstract 正在播放的状态
+     *
+     * @since v2.2.0
+     */
+    QNAudioPlayStatePlaying,
+    /*!
+     * @abstract 数据缓冲的状态
+     *
+     * @since v2.2.0
+     */
+    QNAudioPlayStateBuffering,
+    /*!
+     * @abstract 播放暂停的状态
+     *
+     * @since v2.2.0
+     */
+    QNAudioPlayStatePaused,
+    /*!
+     * @abstract 停止播放的状态
+     *
+     * @since v2.2.0
+     */
+    QNAudioPlayStateStoped,
+    /*!
+     * @abstract 播放完成的状态
+     *
+     * @since v2.2.0
+     */
+    QNAudioPlayStateCompleted,
+    /*!
+     * @abstract 播放发生错误的状态
+     *
+     * @since v2.2.0
+     */
+    QNAudioPlayStateError,
+    /*!
+     * @abstract 播放发生未知错误的状态
+     *
+     * @since v2.2.0
+     */
+    QNAudioPlayStateUnknow,
+};
 
 extern NSString *QNStatisticAudioBitrateKey;
 extern NSString *QNStatisticVideoBitrateKey;

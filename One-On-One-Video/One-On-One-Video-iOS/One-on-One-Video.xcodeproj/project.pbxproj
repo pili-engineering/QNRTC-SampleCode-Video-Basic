@@ -179,18 +179,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-One-on-One-Video/Pods-One-on-One-Video-frameworks.sh",
-				"${PODS_ROOT}/QNRTCKit/Pod/iphoneos/QNRTCKit.framework",
-				"${PODS_ROOT}/QNRTCKit/Pod/iphoneos/QNRTCKit.framework.dSYM",
+				"${PODS_ROOT}/Target Support Files/Pods-One-on-One-Video/Pods-One-on-One-Video-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QNRTCKit.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/QNRTCKit.framework.dSYM",
+				"${PODS_ROOT}/Target Support Files/Pods-One-on-One-Video/Pods-One-on-One-Video-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

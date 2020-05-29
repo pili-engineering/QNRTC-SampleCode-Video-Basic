@@ -106,6 +106,42 @@ QNRTCEngineDelegate
                             @(QNRTCErrorServerUnavailable),
                             @(QNRTCErrorInvalidParameter)];
     dispatch_async(dispatch_get_main_queue(), ^{
+        switch (error.code) {
+            case QNRTCErrorAuthFailed:
+                NSLog(@"鉴权失败，请检查鉴权");
+                break;
+            case QNRTCErrorRoomIsFull:
+                NSLog(@"房间人数已满");
+                break;
+            case QNRTCErrorTokenError:
+                //关于 token 签算规则, 详情请参考【服务端开发说明.RoomToken 签发服务】https://doc.qnsdk.com/rtn/docs/server_overview#1
+                NSLog(@"roomToken 错误");
+                break;
+            case QNRTCErrorTokenExpired:
+                NSLog(@"roomToken 过期");
+                break;
+            case QNRTCErrorUserAlreadyExist:
+                NSLog(@"用户已存在");
+                break;
+            case QNRTCErrorNoPermission:
+                NSLog(@"请检查用户是否有权限，如:合流");
+                break;
+            case QNRTCErrorReconnectTokenError:
+                NSLog(@"重新进入房间超时，请务必调用 leaveRoom, 重新进入房间");
+                break;
+            case QNRTCErrorPublishFailed:
+                NSLog(@"发布失败，请查看是否加入房间，并确定对于音频/视频 Track，分别最多只能有一路为 master");
+                break;
+            case QNRTCErrorInvalidParameter:
+                NSLog(@"服务交互参数错误，请在开发时注意合流、踢人动作等参数的设置");
+                break;
+            case QNRTCErrorRoomClosed:
+                NSLog(@"房间已被管理员关闭");
+                break;
+                
+            default:
+                break;
+        }
         if ([errorArray containsObject:@(error.code)] ) {
             UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"error code: %ld error domain: %@", (long)error.code, error.domain] preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
