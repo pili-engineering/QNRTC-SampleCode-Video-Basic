@@ -47,6 +47,12 @@
 
 更全面的 API 文档可以在这里查阅 [RTN 文档站](https://doc.qnsdk.com/rtn)
 
+## 体验版
+
+- [Android 体验 Demo 及 SDK](https://github.com/pili-engineering/QNRTC-Android)
+- [iOS 体验 Demo 及 SDK](https://github.com/pili-engineering/QNRTC-iOS)
+- [Web 体验 Demo 及 SDK](https://github.com/pili-engineering/QNRTC-Web)
+
 ## License
 
 以上所有的 Sample Code 工程均受到  [MIT License (MIT)](LICENSE.md) 的合法许可保护

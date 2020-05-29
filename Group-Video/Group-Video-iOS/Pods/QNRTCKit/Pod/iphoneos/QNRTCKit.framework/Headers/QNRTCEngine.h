@@ -13,8 +13,11 @@
 #import "QNTrackInfo.h"
 #import "QNMergeStreamConfiguration.h"
 #import "QNMergeStreamLayout.h"
+#import "QNAudioEngine.h"
+#import "QNMessageInfo.h"
 
 @class QNRTCEngine;
+@class QNRTCConfiguration;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -194,6 +197,15 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
            userId:(NSString *)userId;
 
 /*!
+ * @abstract 用户音量回调，包括本地和远端，volume 值在 [0, 1] 之间。
+ *
+ * @discussion 注意：回调用户音量会带来一定的性能消耗，如果没有相关需求，请不要实现该回调。
+ *
+ * @since v2.3.0
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine volume:(float)volume ofTrackId:(NSString *)trackId userId:(NSString *)userId;
+
+/*!
  * @abstract 成功创建合流任务的回调。
  *
  * @since v2.0.0
@@ -206,6 +218,13 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.1.0
  */
 - (void)RTCEngine:(QNRTCEngine *)engine didChangeAudioOutputToDevice:(QNAudioDeviceType)deviceType;
+
+/*!
+ * @abstract 收到消息的回调。
+ *
+ * @since v2.3.0
+ */
+- (void)RTCEngine:(QNRTCEngine *)engine didReceiveMessage:(QNMessageInfo *)message;
 
 @end
 
@@ -261,6 +280,29 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.0.0
  */
 @property (nonatomic, strong, readonly) NSArray<NSString *> *userList;
+
+/*!
+ * @abstract 连麦房间中的音频管理类实例。
+ *
+ * @warning 该值为 QNRTCEngine 的属性，使用方式如下：
+ *          self.engine.audioEngine.audioURL = [NSURL URLWithString:@"http://www.xxx.com/test.mp3"];
+ *          self.engine.audioEngine.delegate = self;
+ *
+ * @discussion 需要配置 audioURL 传入音频地址，调用 startAudioMixing 开始混音，调用 stopAudioMixing 停止混音。
+ *
+ * @since v2.2.0
+ */
+@property (nonatomic, strong, readonly) QNAudioEngine *audioEngine;
+
+/*!
+ * @abstract 用一个 configuration 来初始化 engine。
+ *
+ * @param
+ *    configuration 用于初始化 engine 的配置。
+ *
+ * @since v2.2.0
+ */
+- (instancetype)initWithConfiguration:(QNRTCConfiguration *)configuration;
 
 /*!
  * @abstract 加入房间。
@@ -465,6 +507,16 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
 - (void)pushAudioBuffer:(AudioBuffer *)audioBuffer;
 
 /*!
+ * @abstract 导入音频数据
+ *
+ * @discussion 仅在调用 - (void)setExternalAudioSourceEnabled:(BOOL)enabled; 并传入 YES 后才有效。
+ * 支持的音频数据格式为：PCM 格式
+ *
+ * @since v2.3.0
+ */
+- (void)pushAudioBuffer:(AudioBuffer *)audioBuffer asbd:(AudioStreamBasicDescription *)asbd;
+
+/*!
  * @abstract 订阅由 QNTrackInfo 中的 trackId 指定的一组 Track。
  *
  * @discussion 此处 QNTrackInfo 只须设置 trackId，其它参数可忽略。
@@ -488,6 +540,13 @@ didGetAudioBuffer:(AudioBuffer *)audioBuffer
  * @since v2.0.0
  */
 - (void)kickoutUser:(NSString *)userId;
+
+/*!
+ * @abstract 发送消息给 users 数组中的所有 userId。若需要给房间中的所有人发消息，数组传入 nil 即可。
+ *
+ * @since v2.3.0
+ */
+- (void)sendMessage:(NSString *)messsage toUsers:(nullable NSArray<NSString *> *)users messageId:(nullable NSString *)messageId;
 
 /*!
  * @abstract 获取本地发布的视频 Track 的渲染 View。
