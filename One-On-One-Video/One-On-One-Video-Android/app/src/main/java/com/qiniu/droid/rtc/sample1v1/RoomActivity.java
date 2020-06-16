@@ -141,16 +141,31 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
         }
     }
 
+    /**
+     * 当退出房间执行完毕后触发该回调，可用于切换房间
+     */
     @Override
     public void onRoomLeft() {
 
     }
 
+    /**
+     * 远端用户加入房间时会回调此方法
+     * @see QNRTCEngine#joinRoom(String, String) 可指定 userData 字段
+     *
+     * @param remoteUserId 远端用户的 userId
+     * @param userData 透传字段，用户自定义内容
+     */
     @Override
     public void onRemoteUserJoined(String remoteUserId, String userData) {
 
     }
 
+    /**
+     * 远端用户离开房间时会回调此方法
+     *
+     * @param remoteUserId 远端离开用户的 userId
+     */
     @Override
     public void onRemoteUserLeft(String remoteUserId) {
 
@@ -178,17 +193,35 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
         mRemoteVideoSurfaceView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 远端用户 tracks 成功取消发布时会回调此方法
+     *
+     * @param remoteUserId 远端用户 userId
+     * @param trackInfoList 远端用户取消发布的 tracks 列表
+     */
     @Override
     public void onRemoteUnpublished(String remoteUserId, List<QNTrackInfo> trackInfoList) {
         // 当远端视频取消发布时隐藏远端窗口
         mRemoteVideoSurfaceView.setVisibility(View.GONE);
     }
 
+    /**
+     * 远端用户成功操作静默 tracks 时会回调此方法
+     *
+     * @param remoteUserId 远端用户 userId
+     * @param trackInfoList 远端用户静默的 tracks 列表，是否静默可以通过读取 {@link QNTrackInfo} 的 isMuted() 方法获取
+     */
     @Override
     public void onRemoteUserMuted(String remoteUserId, List<QNTrackInfo> trackInfoList) {
 
     }
 
+    /**
+     * 成功订阅远端用户的 tracks 时会回调此方法
+     *
+     * @param remoteUserId 远端用户 userId
+     * @param trackInfoList 订阅的远端用户 tracks 列表
+     */
     @Override
     public void onSubscribed(String remoteUserId, List<QNTrackInfo> trackInfoList) {
         // 筛选出视频 Track 以渲染到窗口
@@ -200,11 +233,21 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
         }
     }
 
+    /**
+     * 当自己被踢出房间时会回调此方法
+     *
+     * @param userId 踢人方的 userId
+     */
     @Override
     public void onKickedOut(String userId) {
 
     }
 
+    /**
+     * 当收到自定义消息时回调此方法
+     *
+     * @param message 自定义信息，详情请参考 {@link QNCustomMessage}
+     */
     @Override
     public void onMessageReceived(QNCustomMessage qnCustomMessage) {
 
@@ -249,11 +292,21 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
         }
     }
 
+    /**
+     * 当音频路由发生变化时会回调此方法
+     *
+     * @param routing 音频设备, 详情请参考{@link QNAudioDevice}
+     */
     @Override
     public void onAudioRouteChanged(QNAudioDevice routing) {
 
     }
 
+    /**
+     * 当合流任务创建成功的时候会回调此方法
+     *
+     * @param mergeJobId 合流任务 id
+     */
     @Override
     public void onCreateMergeJobSuccess(String mergeJobId) {
 
