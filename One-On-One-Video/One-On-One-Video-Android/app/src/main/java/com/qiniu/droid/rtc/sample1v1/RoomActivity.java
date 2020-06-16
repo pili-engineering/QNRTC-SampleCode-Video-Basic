@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.qiniu.droid.rtc.QNCameraSwitchResultCallback;
+import com.qiniu.droid.rtc.QNCustomMessage;
 import com.qiniu.droid.rtc.QNErrorCode;
 import com.qiniu.droid.rtc.QNRTCEngine;
 import com.qiniu.droid.rtc.QNRTCEngineEventListener;
@@ -101,6 +102,11 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
         mEngine.destroy();
     }
 
+    /**
+     * 房间状态改变时会回调此方法
+     * 房间状态回调只需要做提示用户，或者更新相关 UI； 不需要再做加入房间或者重新发布等其他操作！
+     * @param state 房间状态，可参考 {@link QNRoomState}
+     */
     @Override
     public void onRoomStateChanged(QNRoomState state) {
         switch (state) {
@@ -135,38 +141,87 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
         }
     }
 
+    /**
+     * 当退出房间执行完毕后触发该回调，可用于切换房间
+     */
+    @Override
+    public void onRoomLeft() {
+
+    }
+
+    /**
+     * 远端用户加入房间时会回调此方法
+     * @see QNRTCEngine#joinRoom(String, String) 可指定 userData 字段
+     *
+     * @param remoteUserId 远端用户的 userId
+     * @param userData 透传字段，用户自定义内容
+     */
     @Override
     public void onRemoteUserJoined(String remoteUserId, String userData) {
 
     }
 
+    /**
+     * 远端用户离开房间时会回调此方法
+     *
+     * @param remoteUserId 远端离开用户的 userId
+     */
     @Override
     public void onRemoteUserLeft(String remoteUserId) {
 
     }
 
+    /**
+     * 本地 tracks 成功发布时会回调此方法
+     *
+     * @param trackInfoList 已发布的 tracks 列表
+     */
     @Override
     public void onLocalPublished(List<QNTrackInfo> trackInfoList) {
 
     }
 
+    /**
+     * 远端用户 tracks 成功发布时会回调此方法
+     *
+     * @param remoteUserId 远端用户 userId
+     * @param trackInfoList 远端用户发布的 tracks 列表
+     */
     @Override
     public void onRemotePublished(String remoteUserId, List<QNTrackInfo> trackInfoList) {
         // 当远端视频发布时显示远端窗口
         mRemoteVideoSurfaceView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 远端用户 tracks 成功取消发布时会回调此方法
+     *
+     * @param remoteUserId 远端用户 userId
+     * @param trackInfoList 远端用户取消发布的 tracks 列表
+     */
     @Override
     public void onRemoteUnpublished(String remoteUserId, List<QNTrackInfo> trackInfoList) {
         // 当远端视频取消发布时隐藏远端窗口
         mRemoteVideoSurfaceView.setVisibility(View.GONE);
     }
 
+    /**
+     * 远端用户成功操作静默 tracks 时会回调此方法
+     *
+     * @param remoteUserId 远端用户 userId
+     * @param trackInfoList 远端用户静默的 tracks 列表，是否静默可以通过读取 {@link QNTrackInfo} 的 isMuted() 方法获取
+     */
     @Override
     public void onRemoteUserMuted(String remoteUserId, List<QNTrackInfo> trackInfoList) {
 
     }
 
+    /**
+     * 成功订阅远端用户的 tracks 时会回调此方法
+     *
+     * @param remoteUserId 远端用户 userId
+     * @param trackInfoList 订阅的远端用户 tracks 列表
+     */
     @Override
     public void onSubscribed(String remoteUserId, List<QNTrackInfo> trackInfoList) {
         // 筛选出视频 Track 以渲染到窗口
@@ -178,59 +233,138 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
         }
     }
 
+    /**
+     * 当自己被踢出房间时会回调此方法
+     *
+     * @param userId 踢人方的 userId
+     */
     @Override
     public void onKickedOut(String userId) {
 
     }
 
+    /**
+     * 当收到自定义消息时回调此方法
+     *
+     * @param message 自定义信息，详情请参考 {@link QNCustomMessage}
+     */
     @Override
-    public void onStatisticsUpdated(QNStatisticsReport report) {
+    public void onMessageReceived(QNCustomMessage qnCustomMessage) {
 
     }
 
+    /**
+     * 当媒体状态更新时会回调此方法
+     *
+     * @param report 媒体信息，详情请参考 {@link QNStatisticsReport}
+     */
+    @Override
+    public void onStatisticsUpdated(final QNStatisticsReport report) {
+        if (QNTrackKind.AUDIO.equals(report.trackKind)) {
+            final String log = "音频码率:" + report.audioBitrate / 1000 + "kbps \n" +
+                    "音频丢包率:" + report.audioPacketLostRate;
+            Log.i(TAG, "媒体质量:" + log);
+        } else if (QNTrackKind.VIDEO.equals(report.trackKind)) {
+            final String log = "视频码率:" + report.videoBitrate / 1000 + "kbps \n" +
+                    "视频丢包率:" + report.videoPacketLostRate + " \n" +
+                    "视频的宽:" + report.width + " \n" +
+                    "视频的高:" + report.height + " \n" +
+                    "视频的帧率:" + report.frameRate;
+            Log.i(TAG, "媒体质量:" + log);
+        }
+    }
+
+    /**
+     * 当收到远端用户的媒体状态时会回调此方法
+     *
+     * @param reports 媒体信息，详情请参考 {@link QNStatisticsReport}
+     */
+    @Override
+    public void onRemoteStatisticsUpdated(List<QNStatisticsReport> reports) {
+        for (QNStatisticsReport report : reports) {
+            int lost = report.trackKind.equals(QNTrackKind.VIDEO) ? report.videoPacketLostRate : report.audioPacketLostRate;
+            Log.i(TAG, "remote user " + report.userId
+                + " rtt " + report.rtt
+                + " grade " + report.networkGrade
+                + " track " + report.trackId
+                + " kind " + (report.trackKind.name())
+                + " lostRate " + lost);
+        }
+    }
+
+    /**
+     * 当音频路由发生变化时会回调此方法
+     *
+     * @param routing 音频设备, 详情请参考{@link QNAudioDevice}
+     */
     @Override
     public void onAudioRouteChanged(QNAudioDevice routing) {
 
     }
 
+    /**
+     * 当合流任务创建成功的时候会回调此方法
+     *
+     * @param mergeJobId 合流任务 id
+     */
     @Override
     public void onCreateMergeJobSuccess(String mergeJobId) {
 
     }
 
+    /**
+     * 当发生错误时会回调此方法
+     *
+     * @param errorCode 错误码，详情请参考 {@link QNErrorCode}
+     * @param description 错误描述
+     */
     @Override
     public void onError(int errorCode, String description) {
+        /**
+         * 关于错误异常的相关处理，都应在该回调中完成; 需要处理的错误码及建议处理逻辑如下:
+         *
+         *【TOKEN 相关】
+         * 1. QNErrorCode.ERROR_TOKEN_INVALID 和 QNErrorCode.ERROR_TOKEN_ERROR 表示您提供的房间 token 不符合七牛 token 签算规则,
+         *    详情请参考【服务端开发说明.RoomToken 签发服务】https://doc.qnsdk.com/rtn/docs/server_overview#1
+         * 2. QNErrorCode.ERROR_TOKEN_EXPIRED 表示您的房间 token 过期, 需要重新生成 token 再加入；
+         *
+         *【房间设置相关】以下情况可以与您的业务服务开发确认具体设置
+         * 1. QNErrorCode.ERROR_ROOM_FULL 当房间已加入人数超过每个房间的人数限制触发；请确认后台服务的设置；
+         * 2. QNErrorCode.ERROR_PLAYER_ALREADY_EXIST 后台如果配置为开启【禁止自动踢人】,则同一用户重复加入/未正常退出再加入会触发此错误，您的业务可根据实际情况选择配置；
+         * 3. QNErrorCode.ERROR_NO_PERMISSION 用户对于特定操作，如合流需要配置权限，禁止出现未授权的用户操作；
+         * 4. QNErrorCode.ERROR_ROOM_CLOSED 房间已被管理员关闭；
+         *
+         *【其他错误】
+         * 1. QNErrorCode.ERROR_AUTH_FAIL 服务验证时出错，可能为服务网络异常。建议重新尝试加入房间；
+         * 2. QNErrorCode.ERROR_PUBLISH_FAIL 发布失败, 会有如下3种情况:
+         * 1 ）请确认成功加入房间后，再执行发布操作
+         * 2 ）请确定对于音频/视频 Track，分别最多只能有一路为 master
+         * 3 ）请确认您的网络状况是否正常
+
+         * 3. QNErrorCode.ERROR_RECONNECT_TOKEN_ERROR 内部重连后出错，一般出现在网络非常不稳定时出现，建议提示用户并尝试重新加入房间；
+         * 4. QNErrorCode.ERROR_INVALID_PARAMETER 服务交互参数错误，请在开发时注意合流、踢人动作等参数的设置。
+         * 5. QNErrorCode.ERROR_DEVICE_CAMERA 系统摄像头错误, 建议提醒用户检查
+         */
         switch (errorCode) {
+            // RoomToken 无效，建议重新获取 RoomToken 后再加入房间
             case QNErrorCode.ERROR_TOKEN_INVALID:
-                // RoomToken 无效，建议重新获取 RoomToken 后再加入房间
+            // RoomToken 错误，建议收到此错误代码时尝试重新获取 RoomToken 后再次加入房间
+            case QNErrorCode.ERROR_TOKEN_ERROR:
                 Toast.makeText(getApplicationContext(), "RoomToken Error", Toast.LENGTH_SHORT).show();
                 break;
+            case QNErrorCode.ERROR_TOKEN_EXPIRED:
+                // RoomToken 过期，建议重新获取 RoomToken 后再加入房间
+                Toast.makeText(getApplicationContext(), "RoomToken Expired", Toast.LENGTH_SHORT).show();
+                break;
             case QNErrorCode.ERROR_AUTH_FAIL:
-                // RoomToken 鉴权失败，建议收到此错误代码时尝试重新获取 RoomToken 后再次加入房间。
-                Toast.makeText(getApplicationContext(), "RoomToken Error", Toast.LENGTH_SHORT).show();
+                // RoomToken 鉴权失败，建议收到此错误代码时尝试再次加入房间。
+                Toast.makeText(getApplicationContext(), "Auth Fail", Toast.LENGTH_SHORT).show();
                 break;
             case QNErrorCode.ERROR_PUBLISH_FAIL:
                 // 发布失败，建议收到此错误代码时检查当前连接状态并尝试重新发布
                 if (QNRoomState.CONNECTED.equals(mEngine.getRoomState()) || QNRoomState.RECONNECTED.equals(mEngine.getRoomState())) {
                     mEngine.publish();
                 }
-                break;
-            case QNErrorCode.ERROR_DEVICE_CAMERA:
-                // 相机错误：打开失败、没有权限或者被其他程序占用等
-                Toast.makeText(getApplicationContext(), "Camera Error", Toast.LENGTH_SHORT).show();
-                break;
-            case QNErrorCode.ERROR_TOKEN_ERROR:
-                // RoomToken 错误，建议收到此错误代码时尝试重新获取 RoomToken 后再次加入房间
-                Toast.makeText(getApplicationContext(), "RoomToken Error", Toast.LENGTH_SHORT).show();
-                break;
-            case QNErrorCode.ERROR_TOKEN_EXPIRED:
-                // RoomToken 过期，建议重新获取 RoomToken 后再加入房间
-                Toast.makeText(getApplicationContext(), "RoomToken Error", Toast.LENGTH_SHORT).show();
-                break;
-            case QNErrorCode.ERROR_RECONNECT_TOKEN_ERROR:
-                // SDK 重连时间过长，内部的重连 Token 已失效，建议重新加入房间
-                Toast.makeText(getApplicationContext(), "RoomToken Error", Toast.LENGTH_SHORT).show();
-                mEngine.joinRoom(mRoomToken);
                 break;
             case QNErrorCode.ERROR_ROOM_CLOSED:
                 // 房间已被管理员关闭
@@ -248,13 +382,18 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
                 // 权限不足，一般在踢人、合流等需要权限的操作中会出现
                 Toast.makeText(getApplicationContext(), "You can not do this operation", Toast.LENGTH_SHORT).show();
                 break;
+            case QNErrorCode.ERROR_RECONNECT_TOKEN_ERROR:
+                // SDK 重连时间过长，内部的重连 Token 已失效，建议重新加入房间
+                Toast.makeText(getApplicationContext(), "RoomToken Error", Toast.LENGTH_SHORT).show();
+                mEngine.joinRoom(mRoomToken);
+                break;
             case QNErrorCode.ERROR_INVALID_PARAMETER:
                 // 参数错误，一般在踢人、合流等操作中会出现，开发者检查业务代码逻辑
                 Toast.makeText(getApplicationContext(), "Parameters error", Toast.LENGTH_SHORT).show();
                 break;
-            case QNErrorCode.ERROR_MULTI_MASTER_VIDEO_OR_AUDIO:
-                // 一次通话中只能有一路 master 视频 Track 和一路 master 音频 Track，若超过这个数量则会触发此错误码
-                Toast.makeText(getApplicationContext(), "Publish master track error", Toast.LENGTH_SHORT).show();
+            case QNErrorCode.ERROR_DEVICE_CAMERA:
+                // 相机错误：打开失败、没有权限或者被其他程序占用等
+                Toast.makeText(getApplicationContext(), "Camera Error", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 // 除上面的错误码外其他是 SDK 内部会进行处理的错误码，可以直接忽略
