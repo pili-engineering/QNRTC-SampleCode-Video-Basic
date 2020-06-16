@@ -46,6 +46,7 @@ ScanViewControlerDelegate
 - (void)scanCodeForToken:(UIButton *)button {
     ScanViewController *scanVC = [[ScanViewController alloc] init];
     scanVC.delegate = self;
+    scanVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:scanVC animated:YES completion:nil];
 }
 
@@ -55,6 +56,7 @@ ScanViewControlerDelegate
     if (self.tokenTextField.text.length != 0) {
         RoomViewController *roomVC = [[RoomViewController alloc] init];
         roomVC.token = self.tokenTextField.text;
+        roomVC.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:roomVC animated:YES completion:nil];
     }
 }
