@@ -158,6 +158,16 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
 
     }
 
+    @Override
+    public void onRemoteUserReconnecting(String s) {
+
+    }
+
+    @Override
+    public void onRemoteUserReconnected(String s) {
+
+    }
+
     /**
      * 远端用户离开房间时会回调此方法
      *
@@ -241,6 +251,11 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
         }
     }
 
+    @Override
+    public void onSubscribedProfileChanged(String s, List<QNTrackInfo> list) {
+
+    }
+
     /**
      * 当自己被踢出房间时会回调此方法
      *
@@ -307,6 +322,11 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
      */
     @Override
     public void onCreateMergeJobSuccess(String mergeJobId) {
+
+    }
+
+    @Override
+    public void onCreateForwardJobSuccess(String s) {
 
     }
 
