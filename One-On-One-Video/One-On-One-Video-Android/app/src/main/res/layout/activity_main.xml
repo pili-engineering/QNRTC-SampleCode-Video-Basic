@@ -53,14 +53,27 @@
 
 
     <Button
+        android:id="@+id/join_with_token1"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:background="@color/blue"
+        android:onClick="joinRoom"
         android:padding="10dp"
-        android:text="@string/join_room"
-        android:textColor="@color/white"
-        android:onClick="joinRoom"/>
+        android:text="token1"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/join_with_token2"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@color/blue"
+        android:onClick="joinRoom"
+        android:padding="10dp"
+        android:text="token2"
+        android:textColor="@color/white" />
 
 </LinearLayout>

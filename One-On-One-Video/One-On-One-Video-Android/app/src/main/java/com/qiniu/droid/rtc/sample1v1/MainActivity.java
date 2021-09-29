@@ -18,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText mRoomTokenEditText;
 
+    private final String token1 = "";
+    private final String token2 = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +35,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Some permissions is not approved !!!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!TextUtils.isEmpty(mRoomTokenEditText.getText())) {
-            Intent intent = new Intent(this, RoomActivity.class);
+        Intent intent = new Intent(this, RoomActivity.class);
+        if (token1.isEmpty() && token2.isEmpty()) {
             intent.putExtra("roomToken", mRoomTokenEditText.getText().toString());
-            startActivity(intent);
+        } else {
+            intent.putExtra("roomToken", view.getId() == R.id.join_with_token1 ? token1 : token2);
         }
+        startActivity(intent);
     }
 
     public void clickToScanQRCode(View view) {
