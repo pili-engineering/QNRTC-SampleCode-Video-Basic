@@ -10,7 +10,11 @@
 #import <QNRTCKit/QNRTCKit.h>
 @interface RoomViewController ()
 <
-QNRTCEngineDelegate
+QNRTCClientDelegate,
+QNMicrophoneAudioTrackDataDelegate,
+QNCameraTrackVideoDataDelegate,
+QNRemoteTrackVideoDataDelegate,
+QNRemoteTrackAudioDataDelegate
 >
 @property (nonatomic, assign) CGFloat screenWidth;
 @property (nonatomic, assign) CGFloat screenHeight;
@@ -22,11 +26,15 @@ QNRTCEngineDelegate
 @property (nonatomic, strong) NSDictionary *settingsDic;
 
 @property (nonatomic, assign) CGSize videoEncodeSize;
-@property (nonatomic, assign) NSInteger bitrate;
+@property (nonatomic, assign) NSInteger kBitrate;
 
-@property (nonatomic, strong) QNRTCEngine *rtcEngine;
-@property (nonatomic, strong) QNTrackInfo *audioTrackInfo;
-@property (nonatomic, strong) QNTrackInfo *cameraTrackInfo;
+@property (nonatomic, strong) QNRTCClient *rtcClient;
+@property (nonatomic, strong) QNMicrophoneAudioTrack *audioTrack;
+@property (nonatomic, strong) QNCameraVideoTrack *cameraTrack;
+
+@property (nonatomic, strong) QNVideoView *remoteView;
+
+@property (nonatomic, strong) QNGLKView *preview;
 @end
 
 @implementation RoomViewController
@@ -39,9 +47,15 @@ QNRTCEngineDelegate
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithRed:30/255.0 green:30/255.0 blue:30/255.0 alpha:1.0];
+        
+    self.screenWidth = [UIScreen mainScreen].bounds.size.width;
+    self.screenHeight = [UIScreen mainScreen].bounds.size.height;
     
-    self.screenWidth = CGRectGetWidth(self.view.frame);
-    self.screenHeight = CGRectGetHeight(self.view.frame);
+    self.preview = [[QNGLKView alloc] init];
+    self.preview.frame = CGRectMake(0, 0, self.screenWidth, self.screenHeight);
+    [self.view addSubview:self.preview];
+    
+    [QNRTC enableFileLogging];
     
     // 获取 QNRTCKit 的分辨率、帧率、码率的配置
     self.settingsDic = [self settingsArrayAtIndex:1];
@@ -49,10 +63,11 @@ QNRTCEngineDelegate
     // QNRTCKit 的分辨率
     self.videoEncodeSize = CGSizeFromString(_settingsDic[@"VideoSize"]);
     // QNRTCKit 的码率
-    self.bitrate = [_settingsDic[@"Bitrate"] integerValue];
+    self.kBitrate = [_settingsDic[@"kBitrate"] integerValue];
+    
     
     // 配置 QNRTCKit
-    [self configureRTCEngine];
+    [self configureRTC];
     
     // 布局视图
     [self layoutView];
@@ -61,277 +76,218 @@ QNRTCEngineDelegate
 #pragma mark - settings
 
 - (NSDictionary *)settingsArrayAtIndex:(NSInteger)index {
-    NSArray *settingsArray = @[@{@"VideoSize":NSStringFromCGSize(CGSizeMake(288, 352)), @"FrameRate":@15, @"Bitrate":@(300*1000)},
-                        @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@15, @"Bitrate":@(400*1000) },
-                        @{@"VideoSize":NSStringFromCGSize(CGSizeMake(544, 960)), @"FrameRate":@15, @"Bitrate":@(700*1000)},
-                        @{@"VideoSize":NSStringFromCGSize(CGSizeMake(720, 1280)), @"FrameRate":@20, @"Bitrate":@(1000*1000)}];
+    NSArray *settingsArray = @[@{@"VideoSize":NSStringFromCGSize(CGSizeMake(288, 352)), @"FrameRate":@15, @"kBitrate":@(300)},
+                        @{@"VideoSize":NSStringFromCGSize(CGSizeMake(480, 640)), @"FrameRate":@15, @"kBitrate":@(400) },
+                        @{@"VideoSize":NSStringFromCGSize(CGSizeMake(544, 960)), @"FrameRate":@15, @"kBitrate":@(700)},
+                        @{@"VideoSize":NSStringFromCGSize(CGSizeMake(720, 1280)), @"FrameRate":@20, @"kBitrate":@(1000)}];
     return settingsArray[index];
 }
 
 #pragma mark - QNRTCKit 核心类
 
-- (void)configureRTCEngine {
-    // QNRTCEngine 初始化
-    self.rtcEngine = [[QNRTCEngine alloc] init];
+- (void)configureRTC {
+    // QNRTC 初始化
+    [QNRTC configRTC:[QNRTCConfiguration defaultConfiguration]];
+
+    // QNRTCClient 初始化
+    self.rtcClient = [QNRTC createRTCClient];
+    self.rtcClient.delegate = self;
     
-    // 设置代理 QNRTCEngineDelegate
-    self.rtcEngine.delegate = self;
-    
+    // 视频
+    QNCameraVideoTrackConfig * cameraConfig = [[QNCameraVideoTrackConfig alloc] initWithSourceTag:@"camera" bitrate:self.kBitrate videoEncodeSize:self.videoEncodeSize];
+    self.cameraTrack = [QNRTC createCameraVideoTrackWithConfig:cameraConfig];
     // 设置本地预览视图
-    self.rtcEngine.previewView.frame = CGRectMake(0, 0, self.screenWidth, self.screenHeight);
-    [self.view addSubview:_rtcEngine.previewView];
+    [self.cameraTrack play:self.preview];
     
     // 设置采集视频的帧率
-    self.rtcEngine.videoFrameRate = [self.settingsDic[@"FrameRate"] integerValue];
-    
-    // 开始采集
-    [self.rtcEngine startCapture];
+    self.cameraTrack.videoFrameRate = [self.settingsDic[@"FrameRate"] integerValue];
+    self.cameraTrack.videoDelegate = self;
     
     // 加入房间
-    [self.rtcEngine joinRoomWithToken:self.token];
+    [self.rtcClient join:self.token];
 }
 
-#pragma mark - QNRTCEngineDelegate 代理回调
-
-/*
- 发生错误的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didFailWithError:(NSError *)error {
-    NSLog(@"didFailWithError - %@", error);
-    NSArray *errorArray = @[@(QNRTCErrorTokenError),
-                            @(QNRTCErrorRoomInstanceClosed),
-                            @(QNRTCErrorReconnectTokenError),
-                            @(QNRTCErrorPublishStreamNotExist),
-                            @(QNRTCErrorSubscribeStreamNotExist),
-                            @(QNRTCErrorServerUnavailable),
-                            @(QNRTCErrorInvalidParameter)];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        switch (error.code) {
-            case QNRTCErrorAuthFailed:
-                NSLog(@"鉴权失败，请检查鉴权");
-                break;
-            case QNRTCErrorRoomIsFull:
-                NSLog(@"房间人数已满");
-                break;
-            case QNRTCErrorTokenError:
-                //关于 token 签算规则, 详情请参考【服务端开发说明.RoomToken 签发服务】https://doc.qnsdk.com/rtn/docs/server_overview#1
-                NSLog(@"roomToken 错误");
-                break;
-            case QNRTCErrorTokenExpired:
-                NSLog(@"roomToken 过期");
-                break;
-            case QNRTCErrorUserAlreadyExist:
-                NSLog(@"用户已存在");
-                break;
-            case QNRTCErrorNoPermission:
-                NSLog(@"请检查用户是否有权限，如:合流");
-                break;
-            case QNRTCErrorReconnectTokenError:
-                NSLog(@"重新进入房间超时，请务必调用 leaveRoom, 重新进入房间");
-                break;
-            case QNRTCErrorPublishFailed:
-                NSLog(@"发布失败，请查看是否加入房间，并确定对于音频/视频 Track，分别最多只能有一路为 master");
-                break;
-            case QNRTCErrorInvalidParameter:
-                NSLog(@"服务交互参数错误，请在开发时注意合流、踢人动作等参数的设置");
-                break;
-            case QNRTCErrorRoomClosed:
-                NSLog(@"房间已被管理员关闭");
-                break;
-                
-            default:
-                break;
-        }
-        if ([errorArray containsObject:@(error.code)] ) {
-            UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"error code: %ld error domain: %@", (long)error.code, error.domain] preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }];
-            [alertVc addAction:sureAction];
-            [self presentViewController:alertVc animated:YES completion:nil];
-        }
-    });
-}
+#pragma mark - QNRTCClientDelegate 代理回调
 
 /*
  房间内状态变化的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine roomStateDidChange:(QNRoomState)roomState {
-    NSDictionary *roomStateDictionary =  @{@(QNRoomStateIdle) : @"Idle",
-                                           @(QNRoomStateConnecting) : @"Connecting",
-                                           @(QNRoomStateConnected): @"Connected",
-                                           @(QNRoomStateReconnecting) : @"Reconnecting",
-                                           @(QNRoomStateReconnected) : @"Reconnected"
+- (void)RTCClient:(QNRTCClient *)client didConnectionStateChanged:(QNConnectionState)state disconnectedInfo:(QNConnectionDisconnectedInfo *)info {
+    NSDictionary *connectionStateDictionary =  @{@(QNConnectionStateIdle) : @"Idle",
+                                           @(QNConnectionStateConnecting) : @"Connecting",
+                                           @(QNConnectionStateConnected): @"Connected",
+                                           @(QNConnectionStateReconnecting) : @"Reconnecting",
+                                           @(QNConnectionStateReconnected) : @"Reconnected"
                                            };
-    NSLog(@"roomStateDidChange - %@", roomStateDictionary[@(roomState)]);
+    NSLog(@"roomStateDidChange - %@", connectionStateDictionary[@(state)]);
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (QNRoomStateConnected == roomState) {
+        if (QNConnectionStateConnected == state) {
             self.videoButton.selected = YES;
             self.microphoneButton.selected = YES;
             // 音频
-            QNTrackInfo *audioTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeAudio master:YES];
-            // 视频
-            QNTrackInfo *cameraTrack = [[QNTrackInfo alloc] initWithSourceType:QNRTCSourceTypeCamera tag:@"camera" master:YES bitrateBps:self.bitrate videoEncodeSize:self.videoEncodeSize];
+            self.audioTrack = [QNRTC createMicrophoneAudioTrack];
+            self.audioTrack.audioDelegate = self;
+//                [self.audioTrack setVolume:0.5];
             
             // 发布音视频
-            [self.rtcEngine publishTracks:@[audioTrack, cameraTrack]];
-            
-        } else if (QNRoomStateIdle == roomState) {
+            [self.rtcClient publish:@[self.cameraTrack,self.audioTrack] completeCallback:^(BOOL onPublished, NSError *error) {
+                if (onPublished) {
+                    NSLog(@"didPublishLocalTracks");
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.microphoneButton.enabled = YES;
+                        self.videoButton.enabled = YES;
+                    });
+                }else {
+                    NSLog(@"publish error: %@",error);
+                }
+            }];
+        } else if (QNConnectionStateIdle == state) {
             self.videoButton.enabled = NO;
             self.videoButton.selected = NO;
-        } else if (QNRoomStateReconnecting == roomState) {
+        } else if (QNConnectionStateReconnecting == state) {
             self.videoButton.enabled = NO;
             self.microphoneButton.enabled = NO;
-        } else if (QNRoomStateReconnected == roomState) {
+        } else if (QNConnectionStateReconnected == state) {
             self.videoButton.enabled = YES;
             self.microphoneButton.enabled = YES;
         }
     });
 }
-
-/*
- 发布本地音/视频成功的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didPublishLocalTracks:(NSArray<QNTrackInfo *> *)tracks {
-    NSLog(@"didPublishLocalTracks - %@", tracks);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        for (QNTrackInfo *trackInfo in tracks) {
-            if (trackInfo.kind == QNTrackKindAudio) {
-                self.microphoneButton.enabled = YES;
-                self.audioTrackInfo = trackInfo;
-                continue;
-            }
-            if (trackInfo.kind == QNTrackKindVideo) {
-                if ([trackInfo.tag isEqualToString:@"camera"]) {
-                    self.videoButton.enabled = YES;
-                    self.cameraTrackInfo = trackInfo;
-                }
-                continue;
-            }
-        }
-    });
-}
-
 /*
  远端用户加入房间的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didJoinOfRemoteUserId:(NSString *)userId userData:(NSString *)userData {
-    NSLog(@"didJoinOfRemoteUserId - userId %@ userData %@", userId, userData);
+- (void)RTCClient:(QNRTCClient *)client didJoinOfUserID:(NSString *)userID userData:(NSString *)userData {
+    NSLog(@"didJoinOfUserId - userId %@ userData %@", userID, userData);
 }
 
 /*
  远端用户发布音/视频的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didPublishTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-    NSLog(@"didPublishTracks - tracks %@ userId %@", tracks, userId);
+- (void)RTCClient:(QNRTCClient *)client didUserPublishTracks:(NSArray<QNTrack *> *)tracks ofUserID:(NSString *)userID {
+    NSLog(@"didUserPublishTracks - tracks %@ userId %@", tracks, userID);
 }
 
 /*
- 订阅远端用户成功的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didSubscribeTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-    NSLog(@"didSubscribeTracks - tracks %@ userTd %@", tracks, userId);
-}
-
-/*
- 远端用户音频状态变更的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didAudioMuted:(BOOL)muted ofTrackId:(NSString *)trackId byRemoteUserId:(NSString *)userId {
-    NSLog(@"didAudioMuted - muted %d trackId %@ userId %@", muted, trackId, userId);
-}
-
-/*
- 远端用户音频状态变更的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didVideoMuted:(BOOL)muted ofTrackId:(nonnull NSString *)trackId byRemoteUserId:(nonnull NSString *)userId {
-    NSLog(@"didVideoMuted - muted %d trackId %@ userId %@", muted, trackId, userId);
-}
-
-/*
- 被踢出房间的回调
- */
-- (void)RTCEngine:(QNRTCEngine *)engine didKickoutByUserId:(NSString *)userId {
-    NSLog(@"didKickoutByUserId - %@", userId);
+// 订阅远端用户成功的回调
+// */
+- (void)RTCClient:(QNRTCClient *)client didSubscribedRemoteVideoTracks:(NSArray<QNRemoteVideoTrack *> *)videoTracks audioTracks:(NSArray<QNRemoteAudioTrack *> *)audioTracks ofUserID:(NSString *)userID {
+    NSLog(@"didSubscribedRemoteTracks -  %d,%d userTd %@", audioTracks.count, videoTracks.count, userID);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self dismissViewControllerAnimated:YES completion:nil];
+        for (QNRemoteAudioTrack * audioTrack in audioTracks) {
+            audioTrack.audioDelegate = self;
+        }
+        for (QNRemoteVideoTrack * videoTrack in videoTracks) {
+            [videoTrack play:[self remoteUserView:userID]];
+            videoTrack.videoDelegate = self;
+        }
     });
+
 }
 
 /*
  远端用户取消发布音/视频的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didUnPublishTracks:(NSArray<QNTrackInfo *> *)tracks ofRemoteUserId:(NSString *)userId {
-    NSLog(@"didUnPublishTracks - tracks %@ userId %@", tracks, userId);
+- (void)RTCClient:(QNRTCClient *)client didUserUnpublishTracks:(NSArray<QNTrack *> *)tracks ofUserID:(NSString *)userID {
+    NSLog(@"didUserUnpublishTracks - tracks %@ userId %@", tracks, userID);
+    
+    for (QNTrack *track in tracks) {
+        if ([track.tag isEqual:@"camera"]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.remoteView removeFromSuperview];
+            });
+        }
+    }
 }
 
 /*
  远端用户离开房间的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didLeaveOfRemoteUserId:(NSString *)userId {
-    NSLog(@"didLeaveOfRemoteUserId - %@", userId);
+- (void)RTCClient:(QNRTCClient *)client didLeaveOfUserID:(NSString *)userID {
+    NSLog(@"didLeaveOfUserId - %@", userID);
 }
 
 /*
- 远端用户首帧解码后的回调（仅在远端用户发布视频时会回调）
+ 远端用户发生重连的回调。
  */
-- (QNVideoRender *)RTCEngine:(QNRTCEngine *)engine firstVideoDidDecodeOfTrackId:(NSString *)trackId remoteUserId:(NSString *)userId {
-    QNVideoRender *render = [[QNVideoRender alloc] init];
-    render.renderView = [self remoteUserView:userId];
-    return render;
+- (void)RTCClient:(QNRTCClient *)client didReconnectingOfUserID:(NSString *)userID {
+    NSLog(@"didReconnectingOfUserID - %@",userID);
 }
 
 /*
- 远端用户取消渲染的回调
+ 远端用户重连成功的回调
  */
-- (void)RTCEngine:(QNRTCEngine *)engine didDetachRenderView:(UIView *)renderView ofTrackId:(NSString *)trackId remoteUserId:(NSString *)userId {
-    NSLog(@"didDetachRenderView - renderview %@ trackId %@ userId %@", renderView, trackId, userId);
-    for (UIView *view in self.rtcEngine.previewView.subviews) {
-        if ([view isEqual:renderView]) {
-            [view removeFromSuperview];
-            return;
-        }
-    }
+- (void)RTCClient:(QNRTCClient *)client didReconnectedOfUserID:(NSString *)userID {
+    NSLog(@"didReconnectedOfUserID - %@",userID);
+}
+#pragma mark - QNRemoteTrackVideoDataDelegate
+- (void)remoteVideoTrack:(QNRemoteVideoTrack *)remoteVideoTrack didGetPixelBuffer:(CVPixelBufferRef)pixelBuffer {
+    NSLog(@"remoteVideoTrack: %@ tag: %@ didGetPixelBuffer",remoteVideoTrack.trackID,remoteVideoTrack.tag);
+}
+
+#pragma mark - QNRemoteTrackAudioDataDelegate
+- (void)remoteAudioTrack:(QNRemoteAudioTrack *)remoteAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
+    NSLog(@"remoteAudioTrack: %@ tag: %@ didGetAudioBuffer",remoteAudioTrack.trackID,remoteAudioTrack.tag);
+}
+
+#pragma mark - QNCameraTrackVideoDataDelegate
+- (void)cameraVideoTrack:(QNCameraVideoTrack *)cameraVideoTrack didGetPixelBuffer:(CVPixelBufferRef)pixelBuffer {
+//    NSLog(@"cameraVideoTrack: %@ tag: %@ didGetPixelBuffer",cameraVideoTrack.trackID,track.tag);
+
+}
+
+#pragma mark - QNMicrophoneAudioTrackDataDelegate
+- (void)microphoneAudioTrack:(QNMicrophoneAudioTrack *)microphoneAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
+//    NSLog(@"microphoneAudioTrack: %@ tag: %@ didGetAudioBuffer",track.trackID,track.tag);
 }
 
 #pragma mark - 远端用户画面
 #warning 仅考虑单个远端的情况
 
 - (QNVideoView *)remoteUserView:(NSString *)userId {
-    QNVideoView *remoteView = [[QNVideoView alloc] initWithFrame:CGRectMake(self.screenWidth - self.screenWidth/3, 20, self.screenWidth/3, self.screenWidth/27*16)];
-    [self.rtcEngine.previewView addSubview:remoteView];
+    self.remoteView = [[QNVideoView alloc] initWithFrame:CGRectMake(self.screenWidth - self.screenWidth/3, 20, self.screenWidth/3, self.screenWidth/27*16)];
+    [self.preview addSubview:self.remoteView];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.screenWidth/27*8 - 30, self.screenWidth/3, 60)];
     nameLabel.text = userId;
     nameLabel.textColor = [UIColor whiteColor];
     nameLabel.font = [UIFont systemFontOfSize:15.0];
     nameLabel.textAlignment = NSTextAlignmentCenter;
-    [remoteView addSubview:nameLabel];
+    [self.remoteView addSubview:nameLabel];
     
-    return remoteView;
+    return self.remoteView;
 }
 
 #pragma mark - buttons action
 
 - (void)closePublishAndBack:(UIButton *)button {
     [self dismissViewControllerAnimated:YES completion:^{
-        [self.rtcEngine leaveRoom];
-        [self.rtcEngine stopCapture];
+        [self.rtcClient leave];
+        [QNRTC deinit];
     }];
 }
 
 - (void)videoButtonAction:(UIButton *)button {
     button.selected = !button.isSelected;
-    [self.rtcEngine muteVideo:!button.isSelected];
+    if (button.isSelected) {
+        [self.rtcClient publish:@[self.cameraTrack]];
+    }else {
+        [self.rtcClient unpublish:@[self.cameraTrack]];
+    }
+    
 }
 
 - (void)microphoneButtonAction:(UIButton *)button {
     button.selected = !button.isSelected;
-    [self.rtcEngine muteAudio:!button.isSelected];
+    if (button.isSelected) {
+        [self.rtcClient publish:@[self.audioTrack]];
+    }else {
+        [self.rtcClient unpublish:@[self.audioTrack]];
+    }
 }
 
 - (void)cameraButtonAction:(UIButton *)button {
     button.selected = !button.isSelected;
-    [self.rtcEngine toggleCamera];
+    [self.cameraTrack switchCamera];
 }
     
 #pragma mark - layout view

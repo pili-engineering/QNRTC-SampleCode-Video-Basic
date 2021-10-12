@@ -1,8 +1,8 @@
 //
 //  ViewController.m
-//  QNRTCSampleCodeOne
+//  QNRTCSampleCodeGroup
 //
-//  Created by 冯文秀 on 2019/1/28.
+//  Created by 冯文秀 on 2019/1/29.
 //  Copyright © 2019 Hera. All rights reserved.
 //
 
@@ -52,7 +52,7 @@ ScanViewControlerDelegate
 
 - (void)joinInRoom:(UIButton *)button {
     [self.view endEditing:YES];
-
+    
     if (self.tokenTextField.text.length != 0) {
         RoomViewController *roomVC = [[RoomViewController alloc] init];
         roomVC.token = self.tokenTextField.text;
@@ -87,7 +87,7 @@ ScanViewControlerDelegate
     
     // 名称 label
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 120.0, screenWidth, 30.0)];
-    nameLabel.text = @"one to one";
+    nameLabel.text = @"many to many";
     nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14.0];
     nameLabel.textColor = [UIColor colorWithRed:155/255.0 green:155/255.0 blue:155/255.0 alpha:1.0];
     nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -133,7 +133,7 @@ ScanViewControlerDelegate
     
     // 版本 label
     UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, screenHeight - 130, screenWidth - 80, 60)];
-    NSArray *infoArray = [[QNRTCEngine versionInfo] componentsSeparatedByString:@"-"];
+    NSArray *infoArray = [[QNRTC versionInfo] componentsSeparatedByString:@"-"];
     versionLabel.text = [NSString stringWithFormat:@"版本：v%@\n\n更新时间：%@-%@-%@", infoArray[0], infoArray[1], infoArray[2], infoArray[3]];
     versionLabel.textColor = [UIColor colorWithRed:155/255.0 green:155/255.0 blue:155/255.0 alpha:1.0];
     versionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];
@@ -148,7 +148,7 @@ ScanViewControlerDelegate
     if (textField.text.length != 0) {
         self.joinButton.enabled = YES;
         self.joinButton.backgroundColor = [UIColor colorWithRed:3/255.0 green:160/255.0 blue:222/255.0 alpha:1.0];
-    }
+    } 
     return YES;
 }
 

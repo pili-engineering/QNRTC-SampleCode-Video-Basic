@@ -133,7 +133,7 @@ ScanViewControlerDelegate
     
     // 版本 label
     UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, screenHeight - 130, screenWidth - 80, 60)];
-    NSArray *infoArray = [[QNRTCEngine versionInfo] componentsSeparatedByString:@"-"];
+    NSArray *infoArray = [[QNRTC versionInfo] componentsSeparatedByString:@"-"];
     versionLabel.text = [NSString stringWithFormat:@"版本：v%@\n\n更新时间：%@-%@-%@", infoArray[0], infoArray[1], infoArray[2], infoArray[3]];
     versionLabel.textColor = [UIColor colorWithRed:155/255.0 green:155/255.0 blue:155/255.0 alpha:1.0];
     versionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];
