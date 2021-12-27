@@ -87,7 +87,10 @@ export default {
       // 选择页面上的一个元素作为父元素，播放远端的音视频轨
       const remoteElement = this.remoteVideo;
       // 遍历返回的远端 Track，调用 play 方法完成在页面上的播放
-      for (const remoteTrack of remoteTracks.videoTracks) {
+      for (const remoteTrack of [
+        ...remoteTracks.videoTracks,
+        ...remoteTracks.audioTracks,
+      ]) {
         remoteTrack.play(remoteElement);
       }
     },
