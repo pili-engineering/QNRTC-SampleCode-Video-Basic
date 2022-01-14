@@ -45,7 +45,7 @@
 
 ## 文档站
 
-更全面的 API 文档可以在这里查阅 [RTN 文档站](https://doc.qnsdk.com/rtn)
+更全面的 API 文档可以在这里查阅 [RTN 文档站](https://developer.qiniu.com/rtc/8802/pd-overview)
 
 ## 体验版
 
