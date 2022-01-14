@@ -27,6 +27,7 @@ import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo;
 import com.qiniu.droid.rtc.QNLocalAudioTrackStats;
 import com.qiniu.droid.rtc.QNLocalVideoTrackStats;
 import com.qiniu.droid.rtc.QNLogLevel;
+import com.qiniu.droid.rtc.QNMediaRelayState;
 import com.qiniu.droid.rtc.QNMicrophoneAudioTrack;
 import com.qiniu.droid.rtc.QNMicrophoneAudioTrackConfig;
 import com.qiniu.droid.rtc.QNNetworkQuality;
@@ -338,6 +339,11 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEventListene
      */
     @Override
     public void onMessageReceived(QNCustomMessage message) {
+
+    }
+
+    @Override
+    public void onMediaRelayStateChanged(String relayRoom, QNMediaRelayState state) {
 
     }
 
