@@ -10,8 +10,10 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.qiniu.droid.rtc.QNCameraSwitchResultCallback;
+import com.qiniu.droid.rtc.QNClientRole;
 import com.qiniu.droid.rtc.QNCustomMessage;
 import com.qiniu.droid.rtc.QNErrorCode;
+import com.qiniu.droid.rtc.QNMediaRelayState;
 import com.qiniu.droid.rtc.QNRTCEngine;
 import com.qiniu.droid.rtc.QNRTCEngineEventListener;
 import com.qiniu.droid.rtc.QNRTCSetting;
@@ -340,6 +342,16 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
 
     }
 
+    @Override
+    public void onClientRoleChanged(QNClientRole qnClientRole) {
+
+    }
+
+    @Override
+    public void onMediaRelayStateChanged(Map<String, QNMediaRelayState> map) {
+
+    }
+
     /**
      * 当发生错误时会回调此方法
      *
@@ -472,8 +484,6 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEngineEventL
     public void clickHangUp(View view) {
         // 离开房间
         mEngine.leaveRoom();
-        // 释放资源
-        mEngine.destroy();
         finish();
     }
 }
