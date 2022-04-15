@@ -15,11 +15,7 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 public class MainActivity extends AppCompatActivity {
     private static final int QRCODE_RESULT_REQUEST_CODE = 1;
-
     private EditText mRoomTokenEditText;
-
-    private final String token1 = "";
-    private final String token2 = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +31,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Some permissions is not approved !!!", Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent(this, RoomActivity.class);
-        if (token1.isEmpty() && token2.isEmpty()) {
+        if (!TextUtils.isEmpty(mRoomTokenEditText.getText())) {
+            Intent intent = new Intent(this, RoomActivity.class);
             intent.putExtra("roomToken", mRoomTokenEditText.getText().toString());
-        } else {
-            intent.putExtra("roomToken", view.getId() == R.id.join_with_token1 ? token1 : token2);
+            startActivity(intent);
         }
-        startActivity(intent);
     }
 
     public void clickToScanQRCode(View view) {
