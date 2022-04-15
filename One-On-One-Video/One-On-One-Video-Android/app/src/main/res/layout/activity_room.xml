@@ -26,38 +26,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/choose_file_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="onClickChooseFile"
-        android:text="选择文件"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/local_video_surface_view" />
-
-
-    <Button
-        android:id="@+id/start_audio_mix_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickStartAudioMix"
-        android:text="开始混音"
-        app:layout_constraintEnd_toEndOf="@+id/choose_file_button"
-        app:layout_constraintStart_toStartOf="@+id/choose_file_button"
-        app:layout_constraintTop_toBottomOf="@+id/choose_file_button" />
-
-    <Button
-        android:id="@+id/stop_audio_mix_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClickStopAudioMix"
-        android:text="停止混音"
-        app:layout_constraintEnd_toEndOf="@+id/start_audio_mix_button"
-        app:layout_constraintStart_toStartOf="@+id/start_audio_mix_button"
-        app:layout_constraintTop_toBottomOf="@+id/start_audio_mix_button" />
-
     <ImageButton
         android:id="@+id/camera_button"
         android:layout_width="54dp"
@@ -82,7 +50,6 @@
         app:layout_constraintEnd_toStartOf="@+id/switch_camera_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/camera_button" />
-
 
     <ImageButton
         android:id="@+id/switch_camera_button"

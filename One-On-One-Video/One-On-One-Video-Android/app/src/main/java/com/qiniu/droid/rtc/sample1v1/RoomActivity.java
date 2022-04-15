@@ -1,29 +1,22 @@
 package com.qiniu.droid.rtc.sample1v1;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.github.angads25.filepicker.controller.DialogSelectionListener;
-import com.github.angads25.filepicker.model.DialogConfigs;
-import com.github.angads25.filepicker.model.DialogProperties;
-import com.github.angads25.filepicker.view.FilePickerDialog;
-import com.qiniu.droid.rtc.QNAudioMixer;
-import com.qiniu.droid.rtc.QNAudioMixerListener;
-import com.qiniu.droid.rtc.QNAudioMixerState;
 import com.qiniu.droid.rtc.QNCameraFacing;
 import com.qiniu.droid.rtc.QNCameraSwitchResultCallback;
 import com.qiniu.droid.rtc.QNCameraVideoTrack;
 import com.qiniu.droid.rtc.QNCameraVideoTrackConfig;
 import com.qiniu.droid.rtc.QNClientEventListener;
+import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo;
 import com.qiniu.droid.rtc.QNConnectionState;
 import com.qiniu.droid.rtc.QNCustomMessage;
-import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo;
 import com.qiniu.droid.rtc.QNLocalAudioTrackStats;
 import com.qiniu.droid.rtc.QNLocalVideoTrackStats;
 import com.qiniu.droid.rtc.QNLogLevel;
@@ -50,7 +43,6 @@ import com.qiniu.droid.rtc.QNVideoCaptureConfigPreset;
 import com.qiniu.droid.rtc.QNVideoEncoderConfig;
 import com.qiniu.droid.rtc.model.QNAudioDevice;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -73,10 +65,6 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEventListene
     private boolean mIsMuteAudio = false;
 
     private Timer mStatsTimer;
-
-    private FilePickerDialog mFilePickerDialog;
-    private String mMusicFilePath;
-    private QNAudioMixer mAudioMixer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -395,63 +383,5 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEventListene
         // 离开房间
         mClient.leave();
         finish();
-    }
-
-    public void onClickChooseFile(View view) {
-        if (mFilePickerDialog == null) {
-            DialogProperties properties = new DialogProperties();
-            properties.selection_mode = DialogConfigs.SINGLE_MODE;
-            properties.selection_type = DialogConfigs.FILE_SELECT;
-            properties.root = new File(DialogConfigs.DEFAULT_DIR);
-            properties.extensions = new String[]{"mp3"};
-            mFilePickerDialog = new FilePickerDialog(RoomActivity.this, properties);
-            mFilePickerDialog.setDialogSelectionListener(new DialogSelectionListener() {
-                @Override
-                public void onSelectedFilePaths(String[] files) {
-                    mMusicFilePath = files[0];
-                }
-            });
-        }
-
-        mFilePickerDialog.show();
-    }
-
-    public void onClickStartAudioMix(View view) {
-        if (mMusicFilePath == null) {
-            Toast.makeText(this, "请选择音乐文件！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        mAudioMixer = mMicrophoneAudioTrack.createAudioMixer(mMusicFilePath, new QNAudioMixerListener() {
-            @Override
-            public void onStateChanged(QNAudioMixerState state) {
-                Log.i(TAG, "audio mix onStateChanged : " + state.name());
-            }
-
-            @Override
-            public void onMixing(long currentTimeUs) {
-                Log.i(TAG, "audio mix onMixing : " + currentTimeUs / 1000);
-            }
-
-            @Override
-            public void onError(int errorCode) {
-                Log.i(TAG, "audio mix onError : " + errorCode);
-            }
-        });
-        mAudioMixer.start();
-    }
-
-    public void onClickStopAudioMix(View view) {
-        if (mAudioMixer == null) {
-            Toast.makeText(this, "当前没有混音任务！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // 停止混音
-        mAudioMixer.stop();
-        mAudioMixer = null;
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
     }
 }
