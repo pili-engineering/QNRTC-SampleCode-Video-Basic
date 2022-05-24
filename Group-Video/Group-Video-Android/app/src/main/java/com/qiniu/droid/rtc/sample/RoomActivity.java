@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 
+import com.qiniu.droid.rtc.QNAudioQualityPreset;
 import com.qiniu.droid.rtc.QNCameraFacing;
 import com.qiniu.droid.rtc.QNCameraSwitchResultCallback;
 import com.qiniu.droid.rtc.QNCameraVideoTrack;
@@ -91,7 +92,6 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEventListene
         if (mCameraVideoTrack == null) {
             QNCameraVideoTrackConfig cameraVideoTrackConfig = new QNCameraVideoTrackConfig(TAG_CAMERA)
                     .setCameraFacing(QNCameraFacing.FRONT)
-                    .setMultiProfileEnabled(true)
                     .setVideoCaptureConfig(QNVideoCaptureConfigPreset.CAPTURE_640x480)
                     .setVideoEncoderConfig(new QNVideoEncoderConfig(640, 480, 24, 800));
 
@@ -105,6 +105,7 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEventListene
         // 创建本地音频采集 track
         if (mMicrophoneAudioTrack == null) {
             QNMicrophoneAudioTrackConfig microphoneAudioTrackConfig = new QNMicrophoneAudioTrackConfig(TAG_MICROPHONE);
+            microphoneAudioTrackConfig.setAudioQuality(QNAudioQualityPreset.STANDARD);
             mMicrophoneAudioTrack = QNRTC.createMicrophoneAudioTrack(microphoneAudioTrackConfig);
         }
 
