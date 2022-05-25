@@ -1,7 +1,7 @@
 PODS:
-  - QNRTCKit-iOS (4.0.3):
-    - QNRTCKit-iOS/Core (= 4.0.3)
-  - QNRTCKit-iOS/Core (4.0.3)
+  - QNRTCKit-iOS (4.0.4):
+    - QNRTCKit-iOS/Core (= 4.0.4)
+  - QNRTCKit-iOS/Core (4.0.4)
 
 DEPENDENCIES:
   - QNRTCKit-iOS
@@ -11,7 +11,7 @@ SPEC REPOS:
     - QNRTCKit-iOS
 
 SPEC CHECKSUMS:
-  QNRTCKit-iOS: 324baeac46bcb9581bf68c9cc1f874c4e06a1e29
+  QNRTCKit-iOS: 96d5a8cb090d026059ab860aa8341eeaac88ac10
 
 PODFILE CHECKSUM: 5559821512f68ab61852a15e056ce1df8d3735cf
 
