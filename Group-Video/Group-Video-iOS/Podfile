@@ -7,6 +7,6 @@ target 'Group-Video' do
 
   # Pods for Group-Video
 
-  pod 'QNRTCKit'
+  pod 'QNRTCKit-iOS'
 
 end

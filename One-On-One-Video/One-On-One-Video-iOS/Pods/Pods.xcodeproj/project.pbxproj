@@ -7,50 +7,50 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		956A147274C91BA0D9689B72733942D6 /* QNRTCKit */ = {
+		B6A52A79806572386958AD9BA67B8948 /* QNRTCKit-iOS */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = FD69555F05353B784DF8D0B0C5706F63 /* Build configuration list for PBXAggregateTarget "QNRTCKit" */;
+			buildConfigurationList = 3A95290D9950DA1EC1C6E67DFD542453 /* Build configuration list for PBXAggregateTarget "QNRTCKit-iOS" */;
 			buildPhases = (
-				6E1B2E82EA6FF4B4A18447EC2E6C5336 /* [CP] Copy dSYMs */,
+				435F1A2BF1990E9CF12023B9FBC98298 /* [CP] Copy dSYMs */,
 			);
 			dependencies = (
 			);
-			name = QNRTCKit;
+			name = "QNRTCKit-iOS";
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		BA14DAD889766A92F778ACB7671343F8 /* Pods-One-on-One-Video-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF01310920EE08489CE5F391B760965 /* Pods-One-on-One-Video-dummy.m */; };
+		23176818F7A9167B25144D6873F6E36A /* Pods-One-on-One-Video-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF01310920EE08489CE5F391B760965 /* Pods-One-on-One-Video-dummy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		474D88D55DE3EF89543FEEEE07BFD1B7 /* PBXContainerItemProxy */ = {
+		7AA6780350D72BF1257E998391695C00 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 956A147274C91BA0D9689B72733942D6;
-			remoteInfo = QNRTCKit;
+			remoteGlobalIDString = B6A52A79806572386958AD9BA67B8948;
+			remoteInfo = "QNRTCKit-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		085A8F1B8838F784333B70BB740B17CE /* QNRTCKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = QNRTCKit.release.xcconfig; sourceTree = "<group>"; };
 		0C86774E0388B519DEE9C69B734AB064 /* Pods-One-on-One-Video-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-One-on-One-Video-frameworks.sh"; sourceTree = "<group>"; };
 		1BE8C80B3C202F47906BD038C4B38A95 /* Pods-One-on-One-Video-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-One-on-One-Video-acknowledgements.markdown"; sourceTree = "<group>"; };
-		20600A97937F5625359CD38BBE6E0248 /* QNRTCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QNRTCKit.framework; path = Pod/iphoneos/QNRTCKit.framework; sourceTree = "<group>"; };
 		22570845C97B64FE1993403D3DD8F7E9 /* Pods-One-on-One-Video-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-One-on-One-Video-acknowledgements.plist"; sourceTree = "<group>"; };
-		333EEABB8F9F6F074F4D4CE276C25B9D /* QNRTCKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = QNRTCKit.debug.xcconfig; sourceTree = "<group>"; };
-		4B48A0251AF244B9CBE662AB209004F0 /* QNRTCKit-copy-dsyms.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "QNRTCKit-copy-dsyms.sh"; sourceTree = "<group>"; };
-		4D454803F9BEB01C488915AFA2DFD70C /* HappyDNS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HappyDNS.framework; path = Pod/iphoneos/HappyDNS.framework; sourceTree = "<group>"; };
+		6D4BD99AEFC1505B0925AB9F99FA07E1 /* QNRTCKit-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "QNRTCKit-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		6F735B8283CD3CB2011206135D0CEF3B /* Pods-One-on-One-Video.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-One-on-One-Video.debug.xcconfig"; sourceTree = "<group>"; };
+		84C8203076DA34DD667649295AF6D942 /* QNRTCKit-iOS-copy-dsyms.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "QNRTCKit-iOS-copy-dsyms.sh"; sourceTree = "<group>"; };
 		99283631626A20F5AF08BB68D794938F /* Pods-One-on-One-Video.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-One-on-One-Video.release.xcconfig"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B0557382F90CF8BE0758F53ADD03EA27 /* QNRTCKit-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "QNRTCKit-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		C26EC5530DF616F1542B7C96A9A61F87 /* QNRTCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QNRTCKit.framework; path = Pod/iphoneos/QNRTCKit.framework; sourceTree = "<group>"; };
 		DBF01310920EE08489CE5F391B760965 /* Pods-One-on-One-Video-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-One-on-One-Video-dummy.m"; sourceTree = "<group>"; };
+		E0D80D8FDB0F95A8EB2F7433D3C009AE /* HappyDNS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HappyDNS.framework; path = Pod/iphoneos/HappyDNS.framework; sourceTree = "<group>"; };
 		EF21E6DB07AD6F10E97E243473983A33 /* Pods-One-on-One-Video */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "Pods-One-on-One-Video"; path = "libPods-One-on-One-Video.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6CC0936569728252E1492A01CD04D588 /* Frameworks */ = {
+		3C50315A9A44E74D23CC9F506C561966 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -60,6 +60,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0760D4EACFC26D75C791F374156B4EFA /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				84C8203076DA34DD667649295AF6D942 /* QNRTCKit-iOS-copy-dsyms.sh */,
+				B0557382F90CF8BE0758F53ADD03EA27 /* QNRTCKit-iOS.debug.xcconfig */,
+				6D4BD99AEFC1505B0925AB9F99FA07E1 /* QNRTCKit-iOS.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/QNRTCKit-iOS";
+			sourceTree = "<group>";
+		};
+		1D141BE260E38E6EC24F0DF461C33BFD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6C0AB01A06C3EAE563577D2A8047DED1 /* QNRTCKit-iOS */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		2D00D28DB0E804D5A7C0BC5C39C03679 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				48769098F1DCE461E2B24121F90DBFF5 /* Frameworks */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
 		419449356095FE91A6DF58C522A8F2B7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -68,14 +95,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4815CF4A46E154F7B2B70079D0FDA159 /* QNRTCKit */ = {
+		48769098F1DCE461E2B24121F90DBFF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D94A0E97C7B797DF025653C33AFA7A23 /* Core */,
-				CDD8CF74202C5D9159D48C006D1FDC8E /* Support Files */,
+				E0D80D8FDB0F95A8EB2F7433D3C009AE /* HappyDNS.framework */,
+				C26EC5530DF616F1542B7C96A9A61F87 /* QNRTCKit.framework */,
 			);
-			name = QNRTCKit;
-			path = QNRTCKit;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6C0AB01A06C3EAE563577D2A8047DED1 /* QNRTCKit-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				2D00D28DB0E804D5A7C0BC5C39C03679 /* Core */,
+				0760D4EACFC26D75C791F374156B4EFA /* Support Files */,
+			);
+			name = "QNRTCKit-iOS";
+			path = "QNRTCKit-iOS";
 			sourceTree = "<group>";
 		};
 		79FEF7BE11EF3190D2DCC9E0C05CD9C1 /* Targets Support Files */ = {
@@ -86,40 +122,12 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		B639C89D757B06A6470940F4AAAE3D11 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				4D454803F9BEB01C488915AFA2DFD70C /* HappyDNS.framework */,
-				20600A97937F5625359CD38BBE6E0248 /* QNRTCKit.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		B9E133DD0590CC775E3194D3C6DFB8A6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4815CF4A46E154F7B2B70079D0FDA159 /* QNRTCKit */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		CDD8CF74202C5D9159D48C006D1FDC8E /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				4B48A0251AF244B9CBE662AB209004F0 /* QNRTCKit-copy-dsyms.sh */,
-				333EEABB8F9F6F074F4D4CE276C25B9D /* QNRTCKit.debug.xcconfig */,
-				085A8F1B8838F784333B70BB740B17CE /* QNRTCKit.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/QNRTCKit";
-			sourceTree = "<group>";
-		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
-				B9E133DD0590CC775E3194D3C6DFB8A6 /* Pods */,
+				1D141BE260E38E6EC24F0DF461C33BFD /* Pods */,
 				419449356095FE91A6DF58C522A8F2B7 /* Products */,
 				79FEF7BE11EF3190D2DCC9E0C05CD9C1 /* Targets Support Files */,
 			);
@@ -130,14 +138,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D94A0E97C7B797DF025653C33AFA7A23 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				B639C89D757B06A6470940F4AAAE3D11 /* Frameworks */,
-			);
-			name = Core;
 			sourceTree = "<group>";
 		};
 		E50D48CFB58E7C12FAE8F011790CA1C0 /* Pods-One-on-One-Video */ = {
@@ -157,7 +157,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		FCA153455F5A94AC833971B48F3D9500 /* Headers */ = {
+		A9DA29EDADD21543C28F1DA1272D0D4A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -169,16 +169,16 @@
 /* Begin PBXNativeTarget section */
 		D0CC1F79D78A78732E5D7C4B098C0F95 /* Pods-One-on-One-Video */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 06BBBDF77F176BC81D13EA717EB6A50E /* Build configuration list for PBXNativeTarget "Pods-One-on-One-Video" */;
+			buildConfigurationList = 55EA5219B14B437A556812E4A5C9763E /* Build configuration list for PBXNativeTarget "Pods-One-on-One-Video" */;
 			buildPhases = (
-				FCA153455F5A94AC833971B48F3D9500 /* Headers */,
-				C58A4951917463083171474AC3FAACA6 /* Sources */,
-				6CC0936569728252E1492A01CD04D588 /* Frameworks */,
+				A9DA29EDADD21543C28F1DA1272D0D4A /* Headers */,
+				140A51C2AD7E5C5134B3103F93F4013C /* Sources */,
+				3C50315A9A44E74D23CC9F506C561966 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9F72CDA20EDCC90F86AB7B261E3973A3 /* PBXTargetDependency */,
+				331611C50D82F372435CE5679DC641AE /* PBXTargetDependency */,
 			);
 			name = "Pods-One-on-One-Video";
 			productName = "Pods-One-on-One-Video";
@@ -208,69 +208,75 @@
 			projectRoot = "";
 			targets = (
 				D0CC1F79D78A78732E5D7C4B098C0F95 /* Pods-One-on-One-Video */,
-				956A147274C91BA0D9689B72733942D6 /* QNRTCKit */,
+				B6A52A79806572386958AD9BA67B8948 /* QNRTCKit-iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6E1B2E82EA6FF4B4A18447EC2E6C5336 /* [CP] Copy dSYMs */ = {
+		435F1A2BF1990E9CF12023B9FBC98298 /* [CP] Copy dSYMs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/QNRTCKit/QNRTCKit-copy-dsyms-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/QNRTCKit-iOS/QNRTCKit-iOS-copy-dsyms-input-files.xcfilelist",
 			);
 			name = "[CP] Copy dSYMs";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/QNRTCKit/QNRTCKit-copy-dsyms-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/QNRTCKit-iOS/QNRTCKit-iOS-copy-dsyms-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/QNRTCKit/QNRTCKit-copy-dsyms.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/QNRTCKit-iOS/QNRTCKit-iOS-copy-dsyms.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C58A4951917463083171474AC3FAACA6 /* Sources */ = {
+		140A51C2AD7E5C5134B3103F93F4013C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA14DAD889766A92F778ACB7671343F8 /* Pods-One-on-One-Video-dummy.m in Sources */,
+				23176818F7A9167B25144D6873F6E36A /* Pods-One-on-One-Video-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9F72CDA20EDCC90F86AB7B261E3973A3 /* PBXTargetDependency */ = {
+		331611C50D82F372435CE5679DC641AE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = QNRTCKit;
-			target = 956A147274C91BA0D9689B72733942D6 /* QNRTCKit */;
-			targetProxy = 474D88D55DE3EF89543FEEEE07BFD1B7 /* PBXContainerItemProxy */;
+			name = "QNRTCKit-iOS";
+			target = B6A52A79806572386958AD9BA67B8948 /* QNRTCKit-iOS */;
+			targetProxy = 7AA6780350D72BF1257E998391695C00 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		50B7FFF23516B4C8DC7F8C19D3518D9C /* Debug */ = {
+		3AE2E1727C4700EF130F76A445E7CF8E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 333EEABB8F9F6F074F4D4CE276C25B9D /* QNRTCKit.debug.xcconfig */;
+			baseConfigurationReference = 99283631626A20F5AF08BB68D794938F /* Pods-One-on-One-Video.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		7B21BF1EE1E5B9307185754A643CDC63 /* Debug */ = {
+		5B1BEACEDFD5A98A83C3593FEB094C39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F735B8283CD3CB2011206135D0CEF3B /* Pods-One-on-One-Video.debug.xcconfig */;
 			buildSettings = {
@@ -290,6 +296,23 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		726D4E75AFE78D5BD80220BA692CB233 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D4BD99AEFC1505B0925AB9F99FA07E1 /* QNRTCKit-iOS.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
 		};
 		7EE7A78859F657F6BEFC651185B43192 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -353,27 +376,21 @@
 			};
 			name = Release;
 		};
-		C9A23799A762859398A8884F8283DC2C /* Release */ = {
+		80F109B72CE7622AAF2E562DA42A9531 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 99283631626A20F5AF08BB68D794938F /* Pods-One-on-One-Video.release.xcconfig */;
+			baseConfigurationReference = B0557382F90CF8BE0758F53ADD03EA27 /* QNRTCKit-iOS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		D299434AB35E7FD6F7921C8EF24742FF /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -441,31 +458,14 @@
 			};
 			name = Debug;
 		};
-		DF4C8AD806ABEA60D973D64B5FED0407 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 085A8F1B8838F784333B70BB740B17CE /* QNRTCKit.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		06BBBDF77F176BC81D13EA717EB6A50E /* Build configuration list for PBXNativeTarget "Pods-One-on-One-Video" */ = {
+		3A95290D9950DA1EC1C6E67DFD542453 /* Build configuration list for PBXAggregateTarget "QNRTCKit-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7B21BF1EE1E5B9307185754A643CDC63 /* Debug */,
-				C9A23799A762859398A8884F8283DC2C /* Release */,
+				80F109B72CE7622AAF2E562DA42A9531 /* Debug */,
+				726D4E75AFE78D5BD80220BA692CB233 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -479,11 +479,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FD69555F05353B784DF8D0B0C5706F63 /* Build configuration list for PBXAggregateTarget "QNRTCKit" */ = {
+		55EA5219B14B437A556812E4A5C9763E /* Build configuration list for PBXNativeTarget "Pods-One-on-One-Video" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				50B7FFF23516B4C8DC7F8C19D3518D9C /* Debug */,
-				DF4C8AD806ABEA60D973D64B5FED0407 /* Release */,
+				5B1BEACEDFD5A98A83C3593FEB094C39 /* Debug */,
+				3AE2E1727C4700EF130F76A445E7CF8E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
