@@ -1,23 +1,22 @@
 package com.qiniu.droid.rtc.sample1v1;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.qiniu.droid.rtc.QNAudioQualityPreset;
 import com.qiniu.droid.rtc.QNCameraFacing;
 import com.qiniu.droid.rtc.QNCameraSwitchResultCallback;
 import com.qiniu.droid.rtc.QNCameraVideoTrack;
 import com.qiniu.droid.rtc.QNCameraVideoTrackConfig;
 import com.qiniu.droid.rtc.QNClientEventListener;
-import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo;
 import com.qiniu.droid.rtc.QNConnectionState;
 import com.qiniu.droid.rtc.QNCustomMessage;
+import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo;
 import com.qiniu.droid.rtc.QNLocalAudioTrackStats;
 import com.qiniu.droid.rtc.QNLocalVideoTrackStats;
 import com.qiniu.droid.rtc.QNLogLevel;
@@ -102,7 +101,6 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEventListene
         // 创建本地音频采集 track
         if (mMicrophoneAudioTrack == null) {
             QNMicrophoneAudioTrackConfig microphoneAudioTrackConfig = new QNMicrophoneAudioTrackConfig(TAG_MICROPHONE);
-            microphoneAudioTrackConfig.setAudioQuality(QNAudioQualityPreset.STANDARD);
             mMicrophoneAudioTrack = QNRTC.createMicrophoneAudioTrack(microphoneAudioTrackConfig);
         }
 
