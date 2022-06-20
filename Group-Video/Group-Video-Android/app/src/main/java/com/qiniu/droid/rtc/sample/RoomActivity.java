@@ -82,8 +82,8 @@ public class RoomActivity extends AppCompatActivity implements QNRTCEventListene
         // 设置 QNRTC Log 输出等级
         setting.setLogLevel(QNLogLevel.INFO);
 
-        // 配置音视频数据的编码方式，此处配置为硬编
-        setting.setHWCodecEnabled(true);
+        // 配置音视频数据的编码方式，此处可配置为硬编
+        setting.setHWCodecEnabled(false);
 
         // 初始化 QNRTC
         QNRTC.init(getApplicationContext(), setting, this);
