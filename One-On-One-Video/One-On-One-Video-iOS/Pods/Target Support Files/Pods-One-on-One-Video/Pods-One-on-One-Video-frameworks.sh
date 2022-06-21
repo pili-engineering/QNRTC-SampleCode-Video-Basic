@@ -176,11 +176,9 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${PODS_ROOT}/QNRTCKit-iOS/Pod/iphoneos/HappyDNS.framework"
   install_framework "${PODS_ROOT}/QNRTCKit-iOS/Pod/iphoneos/QNRTCKit.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${PODS_ROOT}/QNRTCKit-iOS/Pod/iphoneos/HappyDNS.framework"
   install_framework "${PODS_ROOT}/QNRTCKit-iOS/Pod/iphoneos/QNRTCKit.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

@@ -8,13 +8,16 @@
 
 #import "RoomViewController.h"
 #import <QNRTCKit/QNRTCKit.h>
+
+#warning 请到 Podifle 下，重新执行 pod instal，确认 Pods/QNRTCKit-iOS/Pod/iphoneos 文件夹下，存在 FFmpeg.framework、QNRTCKit.framework 文件后可运行。
+
 @interface RoomViewController ()
 <
 QNRTCClientDelegate,
-QNMicrophoneAudioTrackDataDelegate,
-QNCameraTrackVideoDataDelegate,
-QNRemoteTrackVideoDataDelegate,
-QNRemoteTrackAudioDataDelegate
+QNLocalAudioTrackDelegate,
+QNLocalVideoTrackDelegate,
+QNRemoteVideoTrackDelegate,
+QNRemoteAudioTrackDelegate
 >
 @property (nonatomic, assign) CGFloat screenWidth;
 @property (nonatomic, assign) CGFloat screenHeight;
@@ -32,9 +35,9 @@ QNRemoteTrackAudioDataDelegate
 @property (nonatomic, strong) QNMicrophoneAudioTrack *audioTrack;
 @property (nonatomic, strong) QNCameraVideoTrack *cameraTrack;
 
-@property (nonatomic, strong) QNVideoView *remoteView;
+@property (nonatomic, strong) QNVideoGLView *remoteView;
 
-@property (nonatomic, strong) QNGLKView *preview;
+@property (nonatomic, strong) QNVideoGLView *preview;
 @end
 
 @implementation RoomViewController
@@ -51,7 +54,7 @@ QNRemoteTrackAudioDataDelegate
     self.screenWidth = [UIScreen mainScreen].bounds.size.width;
     self.screenHeight = [UIScreen mainScreen].bounds.size.height;
     
-    self.preview = [[QNGLKView alloc] init];
+    self.preview = [[QNVideoGLView alloc] init];
     self.preview.frame = CGRectMake(0, 0, self.screenWidth, self.screenHeight);
     [self.view addSubview:self.preview];
     
@@ -87,21 +90,22 @@ QNRemoteTrackAudioDataDelegate
 
 - (void)configureRTC {
     // QNRTC 初始化
-    [QNRTC configRTC:[QNRTCConfiguration defaultConfiguration]];
+    [QNRTC initRTC:[QNRTCConfiguration defaultConfiguration]];
 
     // QNRTCClient 初始化
     self.rtcClient = [QNRTC createRTCClient];
     self.rtcClient.delegate = self;
     
     // 视频
-    QNCameraVideoTrackConfig * cameraConfig = [[QNCameraVideoTrackConfig alloc] initWithSourceTag:@"camera" bitrate:self.kBitrate videoEncodeSize:self.videoEncodeSize];
+    QNVideoEncoderConfig *videoConfig = [[QNVideoEncoderConfig alloc] initWithBitrate:self.kBitrate videoEncodeSize:self.videoEncodeSize];
+    QNCameraVideoTrackConfig * cameraConfig = [[QNCameraVideoTrackConfig alloc] initWithSourceTag:@"camera" config:videoConfig];
     self.cameraTrack = [QNRTC createCameraVideoTrackWithConfig:cameraConfig];
     // 设置本地预览视图
     [self.cameraTrack play:self.preview];
     
     // 设置采集视频的帧率
     self.cameraTrack.videoFrameRate = [self.settingsDic[@"FrameRate"] integerValue];
-    self.cameraTrack.videoDelegate = self;
+    self.cameraTrack.delegate = self;
     
     // 加入房间
     [self.rtcClient join:self.token];
@@ -113,7 +117,7 @@ QNRemoteTrackAudioDataDelegate
  房间内状态变化的回调
  */
 - (void)RTCClient:(QNRTCClient *)client didConnectionStateChanged:(QNConnectionState)state disconnectedInfo:(QNConnectionDisconnectedInfo *)info {
-    NSDictionary *connectionStateDictionary =  @{@(QNConnectionStateIdle) : @"Idle",
+    NSDictionary *connectionStateDictionary =  @{@(QNConnectionStateDisconnected) : @"Disconnected",
                                            @(QNConnectionStateConnecting) : @"Connecting",
                                            @(QNConnectionStateConnected): @"Connected",
                                            @(QNConnectionStateReconnecting) : @"Reconnecting",
@@ -126,7 +130,7 @@ QNRemoteTrackAudioDataDelegate
             self.microphoneButton.selected = YES;
             // 音频
             self.audioTrack = [QNRTC createMicrophoneAudioTrack];
-            self.audioTrack.audioDelegate = self;
+            self.audioTrack.delegate = self;
 //                [self.audioTrack setVolume:0.5];
             
             // 发布音视频
@@ -141,7 +145,7 @@ QNRemoteTrackAudioDataDelegate
                     NSLog(@"publish error: %@",error);
                 }
             }];
-        } else if (QNConnectionStateIdle == state) {
+        } else if (QNConnectionStateDisconnected == state) {
             self.videoButton.enabled = NO;
             self.videoButton.selected = NO;
         } else if (QNConnectionStateReconnecting == state) {
@@ -174,11 +178,11 @@ QNRemoteTrackAudioDataDelegate
     NSLog(@"didSubscribedRemoteTracks -  %d,%d userTd %@", audioTracks.count, videoTracks.count, userID);
     dispatch_async(dispatch_get_main_queue(), ^{
         for (QNRemoteAudioTrack * audioTrack in audioTracks) {
-            audioTrack.audioDelegate = self;
+            audioTrack.delegate = self;
         }
         for (QNRemoteVideoTrack * videoTrack in videoTracks) {
             [videoTrack play:[self remoteUserView:userID]];
-            videoTrack.videoDelegate = self;
+            videoTrack.delegate = self;
         }
     });
 
@@ -219,32 +223,33 @@ QNRemoteTrackAudioDataDelegate
 - (void)RTCClient:(QNRTCClient *)client didReconnectedOfUserID:(NSString *)userID {
     NSLog(@"didReconnectedOfUserID - %@",userID);
 }
-#pragma mark - QNRemoteTrackVideoDataDelegate
+
+#pragma mark - QNRemoteVideoTrackDelegate
 - (void)remoteVideoTrack:(QNRemoteVideoTrack *)remoteVideoTrack didGetPixelBuffer:(CVPixelBufferRef)pixelBuffer {
     NSLog(@"remoteVideoTrack: %@ tag: %@ didGetPixelBuffer",remoteVideoTrack.trackID,remoteVideoTrack.tag);
 }
 
-#pragma mark - QNRemoteTrackAudioDataDelegate
+#pragma mark - QNRemoteAudioTrackDelegate
 - (void)remoteAudioTrack:(QNRemoteAudioTrack *)remoteAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
     NSLog(@"remoteAudioTrack: %@ tag: %@ didGetAudioBuffer",remoteAudioTrack.trackID,remoteAudioTrack.tag);
 }
 
-#pragma mark - QNCameraTrackVideoDataDelegate
-- (void)cameraVideoTrack:(QNCameraVideoTrack *)cameraVideoTrack didGetPixelBuffer:(CVPixelBufferRef)pixelBuffer {
+#pragma mark - QNLocalVideoTrackDelegate
+- (void)localVideoTrack:(QNLocalVideoTrack *)localVideoTrack didGetPixelBuffer:(CVPixelBufferRef)pixelBuffer {
 //    NSLog(@"cameraVideoTrack: %@ tag: %@ didGetPixelBuffer",cameraVideoTrack.trackID,track.tag);
 
 }
 
-#pragma mark - QNMicrophoneAudioTrackDataDelegate
-- (void)microphoneAudioTrack:(QNMicrophoneAudioTrack *)microphoneAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
+#pragma mark - QNLocalAudioTrackDelegate
+- (void)localAudioTrack:(QNLocalAudioTrack *)localAudioTrack didGetAudioBuffer:(AudioBuffer *)audioBuffer bitsPerSample:(NSUInteger)bitsPerSample sampleRate:(NSUInteger)sampleRate {
 //    NSLog(@"microphoneAudioTrack: %@ tag: %@ didGetAudioBuffer",track.trackID,track.tag);
 }
 
 #pragma mark - 远端用户画面
 #warning 仅考虑单个远端的情况
 
-- (QNVideoView *)remoteUserView:(NSString *)userId {
-    self.remoteView = [[QNVideoView alloc] initWithFrame:CGRectMake(self.screenWidth - self.screenWidth/3, 20, self.screenWidth/3, self.screenWidth/27*16)];
+- (QNVideoGLView *)remoteUserView:(NSString *)userId {
+    self.remoteView = [[QNVideoGLView alloc] initWithFrame:CGRectMake(self.screenWidth - self.screenWidth/3, 20, self.screenWidth/3, self.screenWidth/27*16)];
     [self.preview addSubview:self.remoteView];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.screenWidth/27*8 - 30, self.screenWidth/3, 60)];

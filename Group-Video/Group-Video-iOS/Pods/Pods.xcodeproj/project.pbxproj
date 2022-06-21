@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -16,6 +16,7 @@
 			dependencies = (
 			);
 			name = "QNRTCKit-iOS";
+			productName = "QNRTCKit-iOS";
 		};
 /* End PBXAggregateTarget section */
 
@@ -36,11 +37,11 @@
 /* Begin PBXFileReference section */
 		0168D14B8A022FA746F2F89C439A43F3 /* Pods-Group-Video-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Group-Video-acknowledgements.markdown"; sourceTree = "<group>"; };
 		52E314A5136ECF7F36A4A319095910E4 /* Pods-Group-Video.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Group-Video.release.xcconfig"; sourceTree = "<group>"; };
-		6B4686B6294BAE38110296B2C2AB6426 /* Pods-Group-Video */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "Pods-Group-Video"; path = "libPods-Group-Video.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B4686B6294BAE38110296B2C2AB6426 /* libPods-Group-Video.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Group-Video.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D4BD99AEFC1505B0925AB9F99FA07E1 /* QNRTCKit-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "QNRTCKit-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		7CD5FD3EA821633F5E6345E5733ABF4A /* Pods-Group-Video.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Group-Video.debug.xcconfig"; sourceTree = "<group>"; };
 		84C8203076DA34DD667649295AF6D942 /* QNRTCKit-iOS-copy-dsyms.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "QNRTCKit-iOS-copy-dsyms.sh"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		B0557382F90CF8BE0758F53ADD03EA27 /* QNRTCKit-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "QNRTCKit-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C26EC5530DF616F1542B7C96A9A61F87 /* QNRTCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QNRTCKit.framework; path = Pod/iphoneos/QNRTCKit.framework; sourceTree = "<group>"; };
 		D7715AD4179A00192C4D22B54D3242DA /* Pods-Group-Video-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Group-Video-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -116,14 +117,13 @@
 				2D00D28DB0E804D5A7C0BC5C39C03679 /* Core */,
 				0760D4EACFC26D75C791F374156B4EFA /* Support Files */,
 			);
-			name = "QNRTCKit-iOS";
 			path = "QNRTCKit-iOS";
 			sourceTree = "<group>";
 		};
 		A767038579EAEC33815AE3254FEB5E2E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B4686B6294BAE38110296B2C2AB6426 /* Pods-Group-Video */,
+				6B4686B6294BAE38110296B2C2AB6426 /* libPods-Group-Video.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -182,7 +182,7 @@
 			);
 			name = "Pods-Group-Video";
 			productName = "Pods-Group-Video";
-			productReference = 6B4686B6294BAE38110296B2C2AB6426 /* Pods-Group-Video */;
+			productReference = 6B4686B6294BAE38110296B2C2AB6426 /* libPods-Group-Video.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */

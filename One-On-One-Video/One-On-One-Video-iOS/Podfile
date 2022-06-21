@@ -7,6 +7,6 @@ target 'One-on-One-Video' do
 
   # Pods for One-on-One-Video
 
-  pod 'QNRTCKit-iOS'
+  pod 'QNRTCKit-iOS', '= 5.0.0'
 
 end
