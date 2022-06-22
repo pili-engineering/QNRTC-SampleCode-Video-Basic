@@ -9,7 +9,7 @@
 #import "RoomViewController.h"
 #import <QNRTCKit/QNRTCKit.h>
 
-#warning 请到 Podifle 下，重新执行 pod instal，确认 Pods/QNRTCKit-iOS/Pod/iphoneos 文件夹下，存在 FFmpeg.framework、QNRTCKit.framework 文件后可运行。
+#warning 请到 Podifle 下，重新执行 pod install，确认 Pods/QNRTCKit-iOS/Pod/iphoneos 文件夹下，存在 FFmpeg.framework、QNRTCKit.framework 文件后可运行。
 
 @interface RoomViewController ()
 <
