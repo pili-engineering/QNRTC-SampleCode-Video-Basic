@@ -3,11 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2B8A448B584670D41EC78EFE /* libPods-Group-Video.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE872D1AFA3EB9FFF5CEC338 /* libPods-Group-Video.a */; };
+		AAF5A3BE28619F8B00EBCBB6 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF5A3BD28619F8B00EBCBB6 /* libiconv.tbd */; };
+		AAF5A3C028619F9200EBCBB6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF5A3BF28619F9200EBCBB6 /* libz.tbd */; };
+		AAF5A3C228619F9D00EBCBB6 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF5A3C128619F9D00EBCBB6 /* libbz2.tbd */; };
 		C3BD41DE224090AB006EAC1D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BD41DD224090AB006EAC1D /* AppDelegate.m */; };
 		C3BD41E1224090AB006EAC1D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BD41E0224090AB006EAC1D /* ViewController.m */; };
 		C3BD41E4224090AB006EAC1D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3BD41E2224090AB006EAC1D /* Main.storyboard */; };
@@ -20,6 +23,9 @@
 
 /* Begin PBXFileReference section */
 		8FA14B1D56E6549125A95329 /* Pods-Group-Video.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Group-Video.release.xcconfig"; path = "Target Support Files/Pods-Group-Video/Pods-Group-Video.release.xcconfig"; sourceTree = "<group>"; };
+		AAF5A3BD28619F8B00EBCBB6 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		AAF5A3BF28619F9200EBCBB6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		AAF5A3C128619F9D00EBCBB6 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		C3BD41D9224090AB006EAC1D /* Group-Video.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Group-Video.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3BD41DC224090AB006EAC1D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C3BD41DD224090AB006EAC1D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -43,6 +49,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAF5A3C228619F9D00EBCBB6 /* libbz2.tbd in Frameworks */,
+				AAF5A3C028619F9200EBCBB6 /* libz.tbd in Frameworks */,
+				AAF5A3BE28619F8B00EBCBB6 /* libiconv.tbd in Frameworks */,
 				2B8A448B584670D41EC78EFE /* libPods-Group-Video.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,6 +109,9 @@
 		F253F524D67D91D54AE36D00 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AAF5A3C128619F9D00EBCBB6 /* libbz2.tbd */,
+				AAF5A3BF28619F9200EBCBB6 /* libz.tbd */,
+				AAF5A3BD28619F8B00EBCBB6 /* libiconv.tbd */,
 				CE872D1AFA3EB9FFF5CEC338 /* libPods-Group-Video.a */,
 			);
 			name = Frameworks;
