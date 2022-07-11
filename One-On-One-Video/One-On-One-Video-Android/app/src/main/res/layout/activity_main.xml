@@ -64,5 +64,4 @@
         android:text="@string/join_room"
         android:textColor="@color/white" />
 
-
 </LinearLayout>
