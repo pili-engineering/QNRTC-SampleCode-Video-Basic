@@ -1,3 +1,8 @@
+# 注意：该 demo 不再维护，请参考 
+- [Android](https://github.com/pili-engineering/QNRTC-Android/tree/master/QNRTC-API-Examples)
+- [iOS](https://github.com/pili-engineering/QNRTC-iOS/tree/master/QNRTC-API-Examples)
+- [Web](https://github.com/pili-engineering/QNRTC-Web/tree/master/API-Examples-Web)
+
 # 基础视频通话
 
 七牛云为开发者提供了一系列 Sample Code 以展示如何在应用中快速简单地集成以下功能
